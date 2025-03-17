@@ -8,4 +8,5 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss(),
   ],
+  base: 'https://guilkuo.github.io/open-mic-legado-pianobar/'
 })
