@@ -1,33 +1,23 @@
-import { useState, useEffect } from "react";
-/* import { songs } from "./componentes/songsData"; // <-- Importamos el array
- */
+import { useState, useMemo } from "react";
 
+//////////////////////////////////////////////////////////////////////////////////
+// Se quitan:
+// - Clicks acumulables (tagClicks, artistClicks, songClicks) y localStorage.
+// - Top 3 canciones más clickeadas.
+// Se pide:
+// 1) Reordenar las etiquetas priorizando: "#Nacional", "#Internacional", "#Rock", "#Cumbia", luego décadas (#1970s, #1980s, #1990s, etc.), luego algo aleatorio.
+// 2) La lista de artistas se ordena priorizando la cantidad de canciones de ese artista.
+//////////////////////////////////////////////////////////////////////////////////
 
-// Local Storage key to store tag click counts
-const TAG_CLICKS_STORAGE_KEY = "tagClicks";
-
-// Helper: loadTagClicks from localStorage
-function loadTagClicks() {
-  try {
-    const stored = localStorage.getItem(TAG_CLICKS_STORAGE_KEY);
-    if (stored) return JSON.parse(stored);
-    return {};
-  } catch {
-    return {};
-  }
-}
-
-// Helper: saveTagClicks to localStorage
-function saveTagClicks(tagClicks) {
-  localStorage.setItem(TAG_CLICKS_STORAGE_KEY, JSON.stringify(tagClicks));
-}
-
-// Example songs (replace with your full set)
-const songs = [
-  // Código para añadir al array songs (sin duplicados):
-
-///////////////////////////////////////////////////////////
-// Fito Páez
+// Canciones con duplicados (los removemos)
+const rawSongs = [
+  { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
+  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
+  { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
+  { title: "A Donde Vamos", artist: "Coti", tags: ["#Rock", "#Nacional", "#2000s"], lyricsUrl: "https://www.letras.com/coti/a-donde-vamos/" },
+  { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
+  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
+  // Fito Páez
 ///////////////////////////////////////////////////////////
 {
   title: "Fue Amor",
@@ -834,150 +824,248 @@ const songs = [
 { title: "Tu Amor", artist: "Charly García & Pedro Aznar", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/charly-garcia/tu-amor/" },
 { title: "Ayer Nomás", artist: "Los Gatos", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/los-gatos/595362/" },
 { title: "Mil Horas", artist: "Los Abuelos de la Nada", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/los-abuelos-de-la-nada/68627/" },
-
 ];
 
-// Extract all tags and artists
-const allTags = Array.from(new Set(songs.flatMap((song) => song.tags)));
-const allArtists = Array.from(new Set(songs.map((song) => song.artist)));
+function deduplicateSongs(arr) {
+  const seen = new Set();
+  const result = [];
+  for (const s of arr) {
+    const key = `${s.title.toLowerCase()}__${s.artist.toLowerCase()}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      result.push(s);
+    }
+  }
+  return result;
+}
 
 export default function SongCatalog() {
-  // "view" can be "artists" or "songs".
-  const [view, setView] = useState("songs");
+  // Textos en español
+  const tituloPrincipal = "Open Mic del Legado Piano Bar";
+  const subtituloCurado = "curado por";
+  const placeholderSearch = "Busca aquí una canción! Animate!!";
+  const textoNoResults = "Resultados de la búsqueda";
+  const textoListaArtistas = "Lista de Artistas";
+  const textoListaCanciones = "Lista de Canciones";
+  const textoReiniciar = "<--volver";
+  const textoClearTag = "Limpiar etiqueta";
+  const textoVerSongs = "Ver Canciones";
+  const textoVerArtists = "Ver Artistas";
 
-  // Tag clicks from localStorage
-  const [tagClicks, setTagClicks] = useState({});
-  // On mount, load localStorage
-  useEffect(() => {
-    setTagClicks(loadTagClicks());
-  }, []);
-  // On changes, save
-  useEffect(() => {
-    saveTagClicks(tagClicks);
-  }, [tagClicks]);
+  // No más clicks acumulables, quito localStorage.
 
-  // Track filters
   const [selectedTag, setSelectedTag] = useState(null);
-
-  // Undo feature: keep history of states
   const [history, setHistory] = useState([]);
-  const pushHistory = () => {
-    // Save current states so we can revert later
+  const [globalSearch, setGlobalSearch] = useState("");
+  const [view, setView] = useState("songs");
+  const [artistFilter, setArtistFilter] = useState(null);
+
+  const songs = useMemo(() => deduplicateSongs(rawSongs), []);
+
+  // Obtenemos todas las tags sin duplicados
+  const allTags = useMemo(
+    () => Array.from(new Set(songs.flatMap((song) => song.tags))),
+    [songs]
+  );
+
+  // Obtenemos todos los artistas sin duplicados
+  const allArtists = useMemo(
+    () => Array.from(new Set(songs.map((song) => song.artist))),
+    [songs]
+  );
+
+  function pushHistory() {
     setHistory((h) => [
       ...h,
       {
         view,
         selectedTag,
         globalSearch,
+        artistFilter,
       },
     ]);
-  };
-  const undo = () => {
+  }
+
+  function undo() {
     if (history.length > 0) {
       const last = history[history.length - 1];
       setView(last.view);
       setSelectedTag(last.selectedTag);
       setGlobalSearch(last.globalSearch);
-      // remove from stack
+      setArtistFilter(last.artistFilter);
       setHistory((h) => h.slice(0, -1));
     }
-  };
+  }
 
-  // Increment tag count
-  const incrementTagCount = (tag) => {
-    setTagClicks((prev) => {
-      const newCount = (prev[tag] || 0) + 1;
-      return { ...prev, [tag]: newCount };
+  // 1) Reordenar las tags con la prioridad:
+  //    #Nacional, #Internacional, #Rock, #Cumbia, luego décadas (#1970s, #1980s,...), y luego random.
+  // Hacemos una función de orden.
+  function tagPriority(tag) {
+    // quitamos #
+    const label = tag.replace("#", "");
+
+    // priorizamos "Nacional"(1), "Internacional"(2), "Rock"(3), "Cumbia"(4)
+    // luego check si es algo como "1970s" => (5) en orden asc 1970<1980<... pero
+    // definimos un fallback random.
+
+    if (label === "Nacional") return "1";
+    if (label === "Internacional") return "2";
+    if (label === "Rock") return "3";
+    if (label === "Cumbia") return "4";
+
+    // chequeamos si es \d\d\d0s => decades
+    const decadeMatch = label.match(/^\d{4}s$/);
+    if (decadeMatch) {
+      // ej. 1970s => parse 1970 => 1970 => define an order
+      // if 1970 => "5_1970" => so that 1970 < 1980 < 2000 etc.
+      const decadeVal = parseInt(label, 10); // e.g. 1970
+      return "5_" + decadeVal;
+    }
+
+    // else random => "6_" + label
+    // or could do alphabetical?
+    // si quieres un pseudo random, podemos usar label's hash?
+    // Dejo simple: "6_"+label => alphabetical.
+    return "6_" + label;
+  }
+
+  const sortedTags = useMemo(() => {
+    // Reordenamos segun la funcion tagPriority
+    return allTags.slice().sort((a, b) => {
+      const priA = tagPriority(a);
+      const priB = tagPriority(b);
+      // compare lexicographically
+      if (priA < priB) return -1;
+      if (priA > priB) return 1;
+      return 0;
     });
-  };
+  }, [allTags]);
 
-  // Toggle a tag => clears search, increments, sets tag.
-  const toggleTagFilter = (tag) => {
-    pushHistory();
-    // Cancel the search
-    setGlobalSearch("");
-    // increment tag
-    incrementTagCount(tag);
-    // toggle selected tag
-    setSelectedTag((prev) => (prev === tag ? null : tag));
-  };
+  // 2) reordenar la lista de artistas priorizando la cantidad de canciones de cada uno.
+  const filteredArtists = useMemo(() => {
+    // si hay tag => solo los que tienen canciones con ese tag
+    let candidate = !selectedTag
+      ? allArtists
+      : allArtists.filter((artist) =>
+          songs.some((s) => s.artist === artist && s.tags.includes(selectedTag))
+        );
 
-  // Sort tags by click count desc
-  const sortedTags = [...allTags].sort((a, b) => {
-    const clicksA = tagClicks[a] || 0;
-    const clicksB = tagClicks[b] || 0;
-    return clicksB - clicksA;
-  });
+    // ademas filtrado por search? => no, user no pidio.
 
-  // GLOBAL search
-  const [globalSearch, setGlobalSearch] = useState("");
+    // priorizamos la cantidad de canciones => desc
+    // if tie => alphabetical.
+
+    return candidate.slice().sort((a, b) => {
+      const countA = songs.filter((s) => s.artist === a).length;
+      const countB = songs.filter((s) => s.artist === b).length;
+      if (countB === countA) {
+        return a.localeCompare(b);
+      } else {
+        return countB - countA;
+      }
+    });
+  }, [allArtists, selectedTag, songs]);
+
+  // filtrar busqueda
   const isSearching = globalSearch.trim() !== "";
-
-  // Filter for the search results
-  const searchResults = songs
-    .filter((song) => {
-      const term = globalSearch.toLowerCase();
-      return (
+  const searchResults = useMemo(() => {
+    const term = globalSearch.toLowerCase();
+    return songs.filter(
+      (song) =>
         song.title.toLowerCase().includes(term) ||
         song.artist.toLowerCase().includes(term) ||
         song.tags.some((t) => t.toLowerCase().includes(term))
-      );
-    })
-    .sort((a, b) => a.title.localeCompare(b.title));
+    ).sort((a, b) => a.title.localeCompare(b.title));
+  }, [songs, globalSearch]);
 
-  // If not searching, we rely on "view"
-  // Filtered songs if no global search, by selectedTag
-  const filteredSongs = songs
-    .filter((song) => (selectedTag ? song.tags.includes(selectedTag) : true))
-    .sort((a, b) => a.title.localeCompare(b.title));
+  // filtrado final songs
+  const filteredSongs = useMemo(() => {
+    return songs
+      .filter((s) => (!selectedTag ? true : s.tags.includes(selectedTag)))
+      .filter((s) => (!artistFilter ? true : s.artist === artistFilter))
+      .sort((a, b) => a.title.localeCompare(b.title));
+  }, [songs, selectedTag, artistFilter]);
 
-  // Filter artists if no global search, by selectedTag
-  const filteredArtists = allArtists.filter((artist) => {
-    if (!selectedTag) return true;
-    return songs.some((s) => s.artist === artist && s.tags.includes(selectedTag));
-  });
-
-  // handle user wants: when the user clicks the input => clean all filters.
-  const handleSearchFocus = () => {
+  function handleSearchFocus() {
     pushHistory();
-    // clear everything
     setSelectedTag(null);
-  };
+    setArtistFilter(null);
+  }
 
-  // Switch views
-  const showArtists = () => {
+  function showArtists() {
     pushHistory();
     setView("artists");
     setSelectedTag(null);
-  };
-  const showSongs = () => {
+    setArtistFilter(null);
+  }
+  function showSongs() {
     pushHistory();
     setView("songs");
     setSelectedTag(null);
-  };
+    setArtistFilter(null);
+  }
 
-  // For the user, they want to do something if the user clicks an artist.
-  const handleArtistClick = (artist) => {
-    // in the old code, we might do something
-    // we can do pushHistory if needed
+  function handleArtistClick(artist) {
     pushHistory();
-    // we used to do setSearch(artist) but now we have global search.
-    // user wants the search to remain. Maybe do nothing.
-    // or setGlobalSearch(artist)? Not specified. We'll just do nothing.
-    // setGlobalSearch(artist);
-    // show songs
+    setArtistFilter(artist);
     setView("songs");
-  };
+    setSelectedTag(null);
+    setGlobalSearch("");
+  }
+
+  function handleSongArtistClick(artist) {
+    pushHistory();
+    setArtistFilter(artist);
+    setView("songs");
+    setSelectedTag(null);
+    setGlobalSearch("");
+  }
+
+  function handleSongTitleClick(title) {
+    // no increment
+  }
+
+  function handleSongTagClick(tag) {
+    pushHistory();
+    setGlobalSearch("");
+    setArtistFilter(null);
+    setSelectedTag((prev) => (prev === tag ? null : tag));
+  }
+
+  let content;
+  if (isSearching) {
+    content = (
+      <SearchResultsSection
+        results={searchResults}
+        textoNoResults={textoNoResults}
+        onArtistClick={handleSongArtistClick}
+        onSongClick={handleSongTitleClick}
+      />
+    );
+  } else if (view === "artists") {
+    content = (
+      <ArtistsSection
+        artists={filteredArtists}
+        onArtistClick={handleArtistClick}
+      />
+    );
+  } else {
+    content = (
+      <SongsSection
+        songs={filteredSongs}
+        onArtistClick={handleSongArtistClick}
+        onSongClick={handleSongTitleClick}
+        onTagClick={handleSongTagClick}
+      />
+    );
+  }
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center bg-gray-50 text-gray-800 font-sans">
-      {/* Header */}
+    <div className="min-h-screen flex flex-col items-center bg-gray-50 text-gray-800 w-full font-sans">
       <header className="w-full py-6 px-4 text-center shadow-md bg-gray-800 text-white">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold">
-          Open Mic del Legado Piano Bar
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold">{tituloPrincipal}</h1>
         <p className="text-base mt-1">
-          curado por{" "}
+          {subtituloCurado}{" "}
           <a
             href="https://instagram.com/lucaselfire"
             target="_blank"
@@ -989,176 +1077,88 @@ export default function SongCatalog() {
         </p>
       </header>
 
-      {/* Undo button (the user wants a place for it, let's put top-right or top-left) */}
-      <div className="w-full max-w-4xl mt-2 flex justify-end px-4">
-        <button
-          className="px-3 py-1 bg-yellow-200 text-gray-700 rounded hover:bg-yellow-300"
-          onClick={undo}
-        >
-          Deshacer
-        </button>
-      </div>
-
-      {/* New Global Search (always visible) */}
       <div className="w-full max-w-4xl mt-4 flex flex-col items-center px-4">
         <div className="mb-6 w-full max-w-xl bg-white p-3 rounded shadow-sm">
           <input
             type="text"
-            placeholder="Nuevo Buscador: Título, Artista, Etiqueta, etc..."
-            className="block w-full text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder={placeholderSearch}
+            className="block w-full text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={globalSearch}
             onChange={(e) => setGlobalSearch(e.target.value)}
-            onFocus={handleSearchFocus}  
+            onFocus={handleSearchFocus}
           />
         </div>
-
-        {/* Etiquetas (click on a filter => cancels the search) => we already do setGlobalSearch('') in toggleTagFilter. */}
-        <div className="mb-4 w-full max-w-2xl flex flex-wrap gap-2 justify-center">
-          {sortedTags.map((tag, i) => (
-            <span
-              key={i}
-              onClick={() => toggleTagFilter(tag)}
-              className={
-                "text-sm font-medium px-2 py-1 rounded cursor-pointer transition border " +
-                (selectedTag === tag
-                  ? "bg-gray-800 text-white border-gray-800"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100")
+        <div className="mb-4">
+          <button
+            className="px-2 py-1 text-gray-300 bg-gray-800 rounded hover:bg-gray-700 text-xs"
+            onClick={() => {
+              if (history.length > 0) {
+                const last = history[history.length - 1];
+                setView(last.view);
+                setSelectedTag(last.selectedTag);
+                setGlobalSearch(last.globalSearch);
+                setArtistFilter(last.artistFilter);
+                setHistory((h) => h.slice(0, -1));
               }
-            >
-              {tag}
-            </span>
-          ))}
+            }}
+          >
+            {textoReiniciar}
+          </button>
+        </div>
+        {/* Seccion de etiquetas reordenadas segun la prioridad solicitada */}
+        <div className="mb-4 w-full max-w-2xl flex flex-wrap gap-2 justify-center">
+          {sortedTags.map((tag, i) => {
+            const isSelected = selectedTag === tag;
+            const baseClass = "text-sm font-medium px-2 py-1 rounded cursor-pointer transition border";
+            let bgClass = " bg-white text-gray-700 border-gray-300 hover:bg-gray-100";
+            if (isSelected) {
+              bgClass = " bg-gray-300 text-gray-800 border-gray-300";
+            }
+            return (
+              <span
+                key={i}
+                onClick={() => {
+                  pushHistory();
+                  setGlobalSearch("");
+                  setArtistFilter(null);
+                  setSelectedTag((prev) => (prev === tag ? null : tag));
+                }}
+                className={baseClass + bgClass}
+              >
+                {tag}
+              </span>
+            );
+          })}
         </div>
 
-        {/* "Ver Canciones" / "Ver Artistas" buttons */}
         <div className="mb-6 flex flex-wrap justify-center gap-4">
           <button
-            onClick={showSongs}
+            onClick={() => {
+              pushHistory();
+              setView("songs");
+              setSelectedTag(null);
+              setArtistFilter(null);
+            }}
             className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300"
           >
-            Ver Canciones
+            {textoVerSongs}
           </button>
           <button
-            onClick={showArtists}
+            onClick={() => {
+              pushHistory();
+              setView("artists");
+              setSelectedTag(null);
+              setArtistFilter(null);
+            }}
             className="px-4 py-2 bg-gray-200 text-gray-700 font-semibold rounded hover:bg-gray-300"
           >
-            Ver Artistas
+            {textoVerArtists}
           </button>
         </div>
       </div>
 
-      {/* Content */}
       <main className="w-full max-w-4xl flex-1 px-4 pb-10">
-        {/* isSearching => show results instead of normal view */}
-        {globalSearch.trim() !== "" ? (
-          <div>
-            <h2 className="text-2xl font-bold mb-4 text-center">Resultados de la búsqueda</h2>
-            <ul className="w-full max-w-2xl mx-auto space-y-3">
-              {searchResults.map((song, idx) => (
-                <li
-                  key={idx}
-                  className="bg-white border border-gray-200 p-4 rounded shadow-sm hover:shadow-md transition flex items-center justify-between"
-                >
-                  <div>
-                    <a
-                      href={song.lyricsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-base font-semibold text-indigo-900 hover:underline"
-                    >
-                      {song.title}
-                    </a>
-                    <span
-                      className="block text-sm text-indigo-600 cursor-pointer hover:underline"
-                      onClick={() => console.log("Artist clicked:", song.artist)}
-                    >
-                      {song.artist}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2 justify-end ml-2">
-                    {song.tags.map((tag, i) => (
-                      <span
-                        key={i}
-                        onClick={() => toggleTagFilter(tag)}
-                        className="text-xs font-medium text-gray-700 bg-white border border-gray-300 px-2 py-1 rounded cursor-pointer hover:bg-gray-100"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          // Not searching => show normal view
-          <>
-            {view === "artists" && (
-              <div className="flex flex-col items-center w-full">
-                <h2 className="text-2xl font-bold mb-4">Lista de Artistas</h2>
-                <ul className="w-full md:w-2/3 space-y-2">
-                  {filteredArtists.map((artist, index) => (
-                    <li
-                      key={index}
-                      className="bg-white border border-gray-200 p-3 rounded shadow-sm hover:shadow-md transition"
-                    >
-                      <button
-                        onClick={() => handleArtistClick(artist)}
-                        className="text-lg font-medium text-indigo-800 hover:underline"
-                      >
-                        {artist}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {view === "songs" && (
-              <div className="flex flex-col items-center w-full">
-                <h2 className="text-2xl font-bold mb-4">Lista de Canciones</h2>
-                <ul className="w-full max-w-2xl space-y-3">
-                  {filteredSongs.map((song, index) => (
-                    <li
-                      key={index}
-                      className="bg-white border border-gray-200 p-4 rounded shadow-sm hover:shadow-md transition flex items-center justify-between"
-                    >
-                      <div>
-                        <a
-                          href={song.lyricsUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-base font-semibold text-indigo-900 hover:underline"
-                        >
-                          {song.title}
-                        </a>
-                        <span
-                          className="block text-sm text-indigo-600 cursor-pointer hover:underline"
-                          onClick={() => console.log("Artist clicked:", song.artist)}
-                        >
-                          {song.artist}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap gap-2 justify-end ml-2">
-                        {song.tags.map((tag, i) => (
-                          <span
-                            key={i}
-                            onClick={() => toggleTagFilter(tag)}
-                            className="text-xs font-medium text-gray-700 bg-white border border-gray-300 px-2 py-1 rounded cursor-pointer hover:bg-gray-100"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </>
-        )}
-
-        {/* If there's a selectedTag, show a button to clear it */}
+        {content}
         {selectedTag && (
           <div className="text-center mt-6">
             <button
@@ -1168,28 +1168,137 @@ export default function SongCatalog() {
                 setSelectedTag(null);
               }}
             >
-              Limpiar etiqueta
+              {textoClearTag}
             </button>
           </div>
         )}
       </main>
 
-      <footer className="w-full bg-gray-50 py-4 text-center text-sm text-gray-500">
+      <footer className="bg-gray-50 text-gray-500 w-full py-4 text-center text-sm">
         &copy; 2025 - El Legado Piano Bar
       </footer>
     </div>
   );
 }
 
-// Additional test cases
-export function testSongCatalog() {
-  // Check if 'songs' is an array
-  if (!Array.isArray(songs)) {
-    throw new Error("songs is not an array");
+function SearchResultsSection({ results, textoNoResults, onArtistClick, onSongClick }) {
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-4 text-center">{textoNoResults}</h2>
+      <ul className="w-full max-w-2xl mx-auto space-y-3">
+        {results.map((song, idx) => (
+          <SongItem
+            key={idx}
+            song={song}
+            onArtistClick={onArtistClick}
+            onSongClick={onSongClick}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function ArtistsSection({ artists, onArtistClick }) {
+  // no clicks, solo reorder by count
+  return (
+    <div className="flex flex-col items-center w-full">
+      <h2 className="text-2xl font-bold mb-4">Lista de Artistas</h2>
+      <ul className="w-full md:w-2/3 space-y-2">
+        {artists.map((artist, index) => (
+          <li
+            key={index}
+            className="bg-white border border-gray-200 p-3 rounded shadow-sm hover:shadow-md transition"
+          >
+            <button
+              onClick={() => onArtistClick(artist)}
+              className="text-lg font-medium text-indigo-800 hover:underline"
+            >
+              {artist}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function SongsSection({ songs, onArtistClick, onSongClick, onTagClick }) {
+  return (
+    <div className="flex flex-col items-center w-full">
+      <h2 className="text-2xl font-bold mb-4">Lista de Canciones</h2>
+      <ul className="w-full max-w-2xl space-y-3">
+        {songs.map((song, index) => (
+          <SongItem
+            key={index}
+            song={song}
+            onArtistClick={onArtistClick}
+            onSongClick={onSongClick}
+            onTagClick={onTagClick}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function SongItem({ song, onArtistClick, onSongClick, onTagClick }) {
+  function handleTitleClick() {
+    if (onSongClick) {
+      onSongClick(song.title);
+    }
   }
 
-  // Basic tests
-  const titles = songs.map((s) => s.title);
+  function handleTag(tag) {
+    if (onTagClick) {
+      onTagClick(tag);
+    }
+  }
+
+  return (
+    <li className="bg-white text-gray-800 border border-gray-200 p-4 rounded shadow-sm hover:shadow-md transition flex items-center justify-between">
+      <div>
+        <a
+          href={song.lyricsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-base font-semibold text-indigo-900 hover:underline"
+          onClick={handleTitleClick}
+        >
+          {song.title}
+        </a>
+        <span
+          className="block text-sm text-indigo-600 cursor-pointer hover:underline"
+          onClick={() => {
+            if (onArtistClick) {
+              onArtistClick(song.artist);
+            }
+          }}
+        >
+          {song.artist}
+        </span>
+      </div>
+      <div className="flex flex-wrap gap-2 justify-end ml-2">
+        {song.tags.map((tag, i) => (
+          <span
+            key={i}
+            onClick={() => handleTag(tag)}
+            className="text-xs font-medium text-gray-700 bg-white border border-gray-300 px-2 py-1 rounded cursor-pointer hover:bg-gray-100"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </li>
+  );
+}
+
+/* export function testSongCatalog() {
+  if (!Array.isArray(rawSongs)) {
+    throw new Error("rawSongs is not an array");
+  }
+
+  const titles = rawSongs.map((s) => s.title);
   if (!titles.includes("A Donde Vamos")) {
     throw new Error("Missing 'A Donde Vamos'");
   }
@@ -1197,6 +1306,9 @@ export function testSongCatalog() {
     throw new Error("Missing 'Bohemian Rhapsody'");
   }
 
-  // If no error, all is well
+  if (!titles.includes("Muchachos")) {
+    throw new Error("Missing 'Muchachos'");
+  }
+
   console.log("All tests passed successfully!");
-}
+} */
