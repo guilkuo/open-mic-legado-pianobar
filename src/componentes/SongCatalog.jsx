@@ -752,7 +752,7 @@ const rawSongs = [
   {
   title: "La Balsa",
   artist: "Los Gatos",
-  tags: ["#Rock", "#Nacional", "1970s"],
+  tags: ["#Rock", "#Nacional", "#1970s"],
   lyricsUrl: "https://www.letras.com/los-gatos/194886/"
   },
   
@@ -762,7 +762,7 @@ const rawSongs = [
   {
   title: "Mil Horas",
   artist: "Los Abuelos de la Nada",
-  tags: ["#Rock", "#Nacional", "1980s"],
+  tags: ["#Rock", "#Nacional", "#1980s"],
   lyricsUrl: "https://www.letras.com/los-abuelos-de-la-nada/68627/"
   },
   
@@ -782,37 +782,37 @@ const rawSongs = [
   {
   title: "Loco Un Poco",
   artist: "Turf",
-  tags: ["#Rock", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/turf/loco-un-poco/"
   },
   {
   title: "Casanova",
   artist: "Turf",
-  tags: ["#Rock", "#Nacional", "1990s"],
+  tags: ["#Rock", "#Nacional", "#1990s"],
   lyricsUrl: "https://www.letras.com/turf/casanova/"
   },
   {
   title: "Pasos al Costado",
   artist: "Turf",
-  tags: ["#Rock", "#Nacional",  "2000s"],
+  tags: ["#Rock", "#Nacional",  "#2000s"],
   lyricsUrl: "https://www.letras.com/turf/pasos-al-costado/"
   },
   {
   title: "Magia Blanca",
   artist: "Turf",
-  tags: ["#Rock", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/turf/magia-blanca/"
   },
   {
   title: "Yo No Me Quiero Casar",
   artist: "Turf",
-  tags: ["#Rock", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/turf/yo-no-me-quiero-casar/"
   },
   {
   title: "Cuatro Personalidades",
   artist: "Turf",
-  tags: ["#Rock", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/turf/cuatro-personalidades/"
   },
   
@@ -822,7 +822,7 @@ const rawSongs = [
   {
   title: "La Melodía de Dios",
   artist: "Tan Biónica",
-  tags: ["#Pop", "#Nacional", "2010s"],
+  tags: ["#Pop", "#Nacional", "#2010s"],
   lyricsUrl: "https://www.letras.com/tan-bionica/la-melodia-de-dios/"
   },
   
@@ -832,13 +832,13 @@ const rawSongs = [
   {
   title: "Don",
   artist: "Miranda!",
-  tags: ["#Pop", "#Nacional", "2000s"],
+  tags: ["#Pop", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/miranda/don/"
   },
   {
   title: "Yo Te Diré",
   artist: "Miranda!",
-  tags: ["#Pop", "#Nacional", "2000s"],
+  tags: ["#Pop", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/miranda/yo-te-dire/"
   },
   
@@ -846,33 +846,27 @@ const rawSongs = [
   // Babasónicos
   ///////////////////////////////////////////////////////////
   {
-  title: "Como Eran Las Cosas",
-  artist: "Babasónicos",
-  tags: ["#Rock", "#Nacional"],
-  lyricsUrl: "https://www.letras.com/babasonicos/66263/"
-  },
-  {
   title: "Irresponsables",
   artist: "Babasónicos",
-  tags: ["#Rock", "#Nacional", "2000s"],
-  lyricsUrl: "https://www.letras.com/babasonicos/77680/"
+  tags: ["#Rock", "#Nacional", "#2000s"],
+  lyricsUrl: "https://www.letras.com/babasonicos/81760/"
   },
   {
   title: "El Loco",
   artist: "Babasónicos",
-  tags: ["#Rock", "#Nacional"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/babasonicos/1213650/"
   },
   {
   title: "Yegua",
   artist: "Babasónicos",
-  tags: ["#Rock", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/babasonicos/979926/"
   },
   {
   title: "Putita",
   artist: "Babasónicos",
-  tags: ["#Rock", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/babasonicos/76765/"
   },
 
@@ -883,7 +877,7 @@ const rawSongs = [
   {
   title: "Una Calle Nos Separa",
   artist: "Nestor En Bloque",
-  tags: ["#Cumbia", "#Nacional", "2000s"],
+  tags: ["#Rock", "#Nacional", "#2000s"],
   lyricsUrl: "https://www.letras.com/nestor-en-bloque/449492/"
   },
   
@@ -893,9 +887,15 @@ const rawSongs = [
   {
   title: "Luna de Miel en la Mano",
   artist: "Virus",
-  tags: ["#Rock", "#Nacional", "1980s"],
-  lyricsUrl: "https://www.letras.com/virus/513875/"
+  tags: ["#Rock", "#Nacional", "#1980s"],
+  lyricsUrl: "https://www.letras.com/virus/140173/"
   },
+  {
+    title: "Pronta entrega",
+    artist: "Virus",
+    tags: ["#Rock", "#Nacional", "#1980s"],
+    lyricsUrl: "https://www.letras.com/virus/201428/"
+    },
   
   ///////////////////////////////////////////////////////////
   // Mario Luis
@@ -919,7 +919,7 @@ const rawSongs = [
   {
   title: "Tramposa y Mentirosa",
   artist: "Leo Mattioli",
-  tags: ["#Cumbia", "#Nacional", "1990s"],
+  tags: ["#Cumbia", "#Nacional", "#1990s"],
   lyricsUrl: "https://www.letras.com/leo-mattioli/tramposa-y-mentirosa/"
   },
   
@@ -941,13 +941,13 @@ const rawSongs = [
   title: "How Deep Is Your Love",
   artist: "Bee Gees",
   tags: ["#Pop", "#Internacional"],
-  lyricsUrl: "https://www.letras.com/bee-gees/22153/"
+  lyricsUrl: "https://www.letras.com/bee-gees/3601/"
   },
   {
   title: "Killing Me Softly",
   artist: "Roberta Flack",
   tags: ["#Pop", "#Internacional"],
-  lyricsUrl: "https://www.letras.com/roberta-flack/68357/"
+  lyricsUrl: "https://www.letras.com/roberta-flack/"
   },
   {
   title: "I Will Survive",
@@ -1086,7 +1086,7 @@ const rawSongs = [
   { title: "Mariposa Tecknicolor", artist: "Fito Páez", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/fito-paez/mariposa-tecknicolor/" },
   { title: "Wonderwall", artist: "Oasis", tags: ["#Rock", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/oasis/wonderwall/" },
   { title: "La Macarena", artist: "Los del Río", tags: ["#Pop", "#Internacional", "#1990s", "#Cortina de televisión"], lyricsUrl: "https://www.letras.com/los-del-rio/la-macarena/" },
-  { title: "Smells Like Teen Spirit", artist: "Nirvana", tags: ["#Grunge", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/nirvana/smells-like-teen-spirit/" },
+  { title: "Smells Like Teen Spirit", artist: "Nirvana", tags: ["#Rock", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/nirvana/smells-like-teen-spirit/" },
   { title: "La Copa de la Vida", artist: "Ricky Martin", tags: ["#Pop", "#Internacional", "#1990s", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/ricky-martin/la-copa-de-la-vida/" },
   { title: "Thriller", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/thriller/" },
   { title: "Sweet Child O' Mine", artist: "Guns N' Roses", tags: ["#Rock", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/guns-n-roses/sweet-child-o-mine/" },
@@ -1145,10 +1145,10 @@ const rawSongs = [
   // 2 Michael Jackson => already have Thriller & Billie Jean
 
   // 4 Luis Miguel
-  { title: "La Incondicional", artist: "Luis Miguel", tags: ["#Pop", "#Mexicano", "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/la-incondicional/" },
-  { title: "Ahora Te Puedes Marchar", artist: "Luis Miguel", tags: ["#Pop", "#Mexicano", "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/ahora-te-puedes-marchar/" },
-  { title: "Culpable o No", artist: "Luis Miguel", tags: ["#Pop", "#Mexicano", "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/" },
-  { title: "Cuando Calienta el Sol", artist: "Luis Miguel", tags: ["#Pop", "#Mexicano", "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/cuando-calienta-el-sol/" },
+  { title: "La Incondicional", artist: "Luis Miguel", tags: ["#Pop", "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/la-incondicional/" },
+  { title: "Ahora Te Puedes Marchar", artist: "Luis Miguel", tags: ["#Pop", "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/ahora-te-puedes-marchar/" },
+  { title: "Culpable o No", artist: "Luis Miguel", tags: ["#Pop",  "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/" },
+  { title: "Cuando Calienta el Sol", artist: "Luis Miguel", tags: ["#Pop",  "#1980s"], lyricsUrl: "https://www.letras.com/luis-miguel/cuando-calienta-el-sol/" },
 
   // 3 Fito Paez => we have 1: Mariposa Tecknicolor => add 2 more
   { title: "El Amor Después del Amor", artist: "Fito Páez", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/fito-paez/49588/" },
@@ -1518,7 +1518,31 @@ export default function SongCatalog() {
           </a>
         </p>
       </header>
-
+{/* Seccion de etiquetas reordenadas segun la prioridad solicitada */}
+<div className="mb-4 w-full max-w-2xl flex flex-wrap gap-2 justify-center">
+          {sortedTags.map((tag, i) => {
+            const isSelected = selectedTag === tag;
+            const baseClass = "text-sm font-medium px-2 py-1 rounded cursor-pointer transition border";
+            let bgClass = " bg-white text-gray-700 border-gray-300 hover:bg-gray-100";
+            if (isSelected) {
+              bgClass = " bg-gray-300 text-gray-800 border-gray-300";
+            }
+            return (
+              <span
+                key={i}
+                onClick={() => {
+                  pushHistory();
+                  setGlobalSearch("");
+                  setArtistFilter(null);
+                  setSelectedTag((prev) => (prev === tag ? null : tag));
+                }}
+                className={baseClass + bgClass}
+              >
+                {tag}
+              </span>
+            );
+          })}
+        </div>
       <div className="w-full max-w-4xl mt-4 flex flex-col items-center px-4">
         <div className="mb-6 w-full max-w-xl bg-white p-3 rounded shadow-sm">
           <input
@@ -1547,31 +1571,7 @@ export default function SongCatalog() {
             {textoReiniciar}
           </button>
         </div>
-        {/* Seccion de etiquetas reordenadas segun la prioridad solicitada */}
-        <div className="mb-4 w-full max-w-2xl flex flex-wrap gap-2 justify-center">
-          {sortedTags.map((tag, i) => {
-            const isSelected = selectedTag === tag;
-            const baseClass = "text-sm font-medium px-2 py-1 rounded cursor-pointer transition border";
-            let bgClass = " bg-white text-gray-700 border-gray-300 hover:bg-gray-100";
-            if (isSelected) {
-              bgClass = " bg-gray-300 text-gray-800 border-gray-300";
-            }
-            return (
-              <span
-                key={i}
-                onClick={() => {
-                  pushHistory();
-                  setGlobalSearch("");
-                  setArtistFilter(null);
-                  setSelectedTag((prev) => (prev === tag ? null : tag));
-                }}
-                className={baseClass + bgClass}
-              >
-                {tag}
-              </span>
-            );
-          })}
-        </div>
+        
 
         <div className="mb-6 flex flex-wrap justify-center gap-4">
           <button
