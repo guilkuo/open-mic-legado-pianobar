@@ -1265,6 +1265,107 @@ const rawSongs = [
 { title: "Tu Amor", artist: "Charly García & Pedro Aznar", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/charly-garcia/tu-amor/" },
 { title: "Ayer Nomás", artist: "Los Gatos", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/los-gatos/595362/" },
 { title: "Mil Horas", artist: "Los Abuelos de la Nada", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/los-abuelos-de-la-nada/68627/" },
+////////////////////////////////////
+// Bersuit Vergarabat
+////////////////////////////////////
+{
+  title: "Toco y me voy",
+  artist: "Bersuit Vergarabat",
+  tags: ["#Rock", "#Nacional", "#2000"],
+  lyricsUrl: "https://www.letras.com/bersuit-vergarabat/144359/"
+},
+{
+  title: "Murguita del Sur",
+  artist: "Bersuit Vergarabat",
+  tags: ["#Rock", "#Nacional", "#2000"],
+  lyricsUrl: "https://www.letras.com/bersuit-vergarabat/murguita-del-sur/"
+},
+{
+  title: "La Bolsa",
+  artist: "Bersuit Vergarabat",
+  tags: ["#Rock", "#Nacional", "#2000"],
+  lyricsUrl: "https://www.letras.com/bersuit-vergarabat/47233/"
+},
+
+////////////////////////////////////
+// La Vela Puerca
+////////////////////////////////////
+{
+  title: "El Viejo",
+  artist: "La Vela Puerca",
+  tags: ["#Rock", "#Internacional", "#2000"],
+  lyricsUrl: "https://www.letras.com/la-vela-puerca/319385/"
+},
+
+////////////////////////////////////
+// No Te Va Gustar
+////////////////////////////////////
+{
+  title: "A Las Nueve",
+  artist: "No Te Va Gustar",
+  tags: ["#Rock", "#Uruguaya"],
+  lyricsUrl: "https://www.letras.com/no-te-va-gustar/a-las-nueve/"
+},
+
+////////////////////////////////////
+// Las Pelotas
+////////////////////////////////////
+{
+  title: "Si Supieras",
+  artist: "Las Pelotas",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/las-pelotas/204389/"
+},
+{
+  title: "Será",
+  artist: "Las Pelotas",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/las-pelotas/204388/"
+},
+
+////////////////////////////////////
+// Divididos
+////////////////////////////////////
+{
+  title: "Nene de Antes",
+  artist: "Divididos",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/divididos/"
+},
+{
+  title: "Ala Delta",
+  artist: "Divididos",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/divididos/"
+},
+
+////////////////////////////////////
+// Los Piojos
+////////////////////////////////////
+{
+  title: "Al Atardecer",
+  artist: "Los Piojos",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/los-piojos/"
+},
+{
+  title: "Ando Ganas",
+  artist: "Los Piojos",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/los-piojos/"
+},
+{
+  title: "Vine Hasta Aquí",
+  artist: "Los Piojos",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/los-piojos/"
+},
+{
+  title: "Como Alí",
+  artist: "Los Piojos",
+  tags: ["#Rock", "#Nacional"],
+  lyricsUrl: "https://www.letras.com/los-piojos/"
+},
 ];
 
 function deduplicateSongs(arr) {
