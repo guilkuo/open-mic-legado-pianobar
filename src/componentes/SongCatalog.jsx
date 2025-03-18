@@ -1302,7 +1302,7 @@ const rawSongs = [
 {
   title: "A Las Nueve",
   artist: "No Te Va Gustar",
-  tags: ["#Rock", "#Uruguaya"],
+  tags: ["#Rock"],
   lyricsUrl: "https://www.letras.com/no-te-va-gustar/a-las-nueve/"
 },
 
