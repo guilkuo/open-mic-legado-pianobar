@@ -1519,8 +1519,8 @@ export default function SongCatalog() {
         </p>
       </header>
 {/* Seccion de etiquetas reordenadas segun la prioridad solicitada */}
-<div className="mb-4 w-full max-w-2xl flex flex-wrap gap-2 justify-center">
-          {sortedTags.map((tag, i) => {
+<div className="mb-2 w-full max-w-2xl flex flex-wrap gap-0,5 justify-center">
+  {sortedTags.map((tag, i) => {
             const isSelected = selectedTag === tag;
             const baseClass = "text-sm font-medium px-2 py-1 rounded cursor-pointer transition border";
             let bgClass = " bg-white text-gray-700 border-gray-300 hover:bg-gray-100";
