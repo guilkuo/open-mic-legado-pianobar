@@ -1095,7 +1095,7 @@ const rawSongs = [
   { title: "Garota de Ipanema", artist: "Tom Jobim & Vinicius de Moraes", tags: ["#BossaNova", "#Brasil", "#1960s"], lyricsUrl: "https://www.letras.com/antonio-carlos-jobim/20712/" },
   { title: "Ai Se Eu Te Pego", artist: "Michel Teló", tags: ["#Pop", "#Brasil", "#2010s"], lyricsUrl: "https://www.letras.com/michel-telo/ai-se-eu-te-pego/" },
   { title: "Mas que Nada", artist: "Jorge Ben Jor", tags: ["#Samba", "#Brasil", "#1960s"], lyricsUrl: "https://www.letras.com/jorge-ben-jor/64941/" },
-  { title: "Aquarela do Brasil", artist: "Ary Barroso", tags: ["#MPB", "#Brasil", "#1930s"], lyricsUrl: "https://www.letras.com/ary-barroso/66523/" },
+  { title: "Aquarela do Brasil", artist: "Ary Barroso", tags: ["#Brasil", "#1930s"], lyricsUrl: "https://www.letras.com/ary-barroso/66523/" },
   { title: "La Lambada", artist: "Kaoma", tags: ["#Lambada", "#Brasil", "#1980s"], lyricsUrl: "https://www.letras.com/kaoma/lambada/" },
 
   // Nuevas (30 canciones)
