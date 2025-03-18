@@ -478,7 +478,7 @@ const rawSongs = [
 },
 
   { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
-  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
+  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
   { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
   // Fito Páez
 ///////////////////////////////////////////////////////////
@@ -1073,12 +1073,11 @@ const rawSongs = [
   },
   // ... (Same content as your doc)
   { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
-  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
   // ...
   { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
   { title: "A Donde Vamos", artist: "Coti", tags: ["#Rock", "#Nacional", "#2000s"], lyricsUrl: "https://www.letras.com/coti/a-donde-vamos/" },
   { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
-  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
+  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
   // etc...
   { title: "Imagine", artist: "John Lennon", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/john-lennon/imagine/" },
   { title: "Livin' on a Prayer", artist: "Bon Jovi", tags: ["#Rock", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/bon-jovi/livin-on-a-prayer/" },
@@ -1087,7 +1086,7 @@ const rawSongs = [
   { title: "Wonderwall", artist: "Oasis", tags: ["#Rock", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/oasis/wonderwall/" },
   { title: "La Macarena", artist: "Los del Río", tags: ["#Pop", "#Internacional", "#1990s", "#Cortina de televisión"], lyricsUrl: "https://www.letras.com/los-del-rio/la-macarena/" },
   { title: "Smells Like Teen Spirit", artist: "Nirvana", tags: ["#Rock", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/nirvana/smells-like-teen-spirit/" },
-  { title: "La Copa de la Vida", artist: "Ricky Martin", tags: ["#Pop", "#Internacional", "#1990s", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/ricky-martin/la-copa-de-la-vida/" },
+  { title: "La Copa de la Vida", artist: "Ricky Martin", tags: ["#Pop", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/ricky-martin/la-copa-de-la-vida/" },
   { title: "Thriller", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/thriller/" },
   { title: "Sweet Child O' Mine", artist: "Guns N' Roses", tags: ["#Rock", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/guns-n-roses/sweet-child-o-mine/" },
   { title: "Persiana Americana", artist: "Soda Stereo", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/soda-stereo/persiana-americana/" },
