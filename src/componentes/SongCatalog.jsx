@@ -1359,6 +1359,31 @@ const rawSongs = [
   tags: ["#Rock", "#Nacional"],
   lyricsUrl: "https://www.letras.com/los-piojos/"
 },
+//// Cristian Castro 
+{
+  title: "No podrás",
+  artist: "Cristian Castro",
+  tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+  lyricsUrl: "https://www.letras.com/castro-cristian/155205/"
+  },
+  {
+  title: "Lloviendo estrellas",
+  artist: "Cristian Castro",
+  tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+  lyricsUrl: "https://www.letras.com/castro-cristian/568427/"
+  },
+  {
+    title: "Es mejor así",
+    artist: "Cristian Castro",
+    tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+    lyricsUrl: "https://www.letras.com/castro-cristian/7163/"
+    },
+    {
+      title: "Lloran las rosas",
+      artist: "Cristian Castro",
+      tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+      lyricsUrl: "https://www.letras.com/castro-cristian/7156/"
+      },
 ];
 
 function deduplicateSongs(arr) {

@@ -1,4 +1,4 @@
-// componentes/SongData.jsx
+/* // componentes/SongData.jsx
 
 // Simplemente exportas tu array (no hace falta ser un componente React)
 export const rawSongs = [
@@ -812,3 +812,29 @@ export const rawSongs = [
     // ... y así con todas tus canciones ...
     }
   ];
+ */
+
+  {
+    title: "No podrás",
+    artist: "Cristian Castro",
+    tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+    lyricsUrl: "https://www.letras.com/castro-cristian/155205/"
+    },
+    {
+    title: "Lloviendo estrellas",
+    artist: "Cristian Castro",
+    tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+    lyricsUrl: "https://www.letras.com/castro-cristian/568427/"
+    },
+    {
+      title: "Es mejor así",
+      artist: "Cristian Castro",
+      tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+      lyricsUrl: "https://www.letras.com/castro-cristian/7163/"
+      },
+      {
+        title: "Lloran las rosas",
+        artist: "Cristian Castro",
+        tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+        lyricsUrl: "https://www.letras.com/castro-cristian/7163/"
+        },
