@@ -1037,13 +1037,7 @@ const rawSongs = [
   tags: ["#Cumbia", "#Nacional"],
   lyricsUrl: "https://www.letras.com/yerba-brava/"
   },
-  {
-  title: "Yo Soy Tu Maestro",
-  artist: "Néstor en Bloque",
-  tags: ["#Cumbia", "#Nacional"],
-  lyricsUrl: "https://www.letras.com/nestor-en-bloque/yo-soy-tu-maestro/" // Placeholder link
-  },
-  {
+ {
   title: "La Resaca",
   artist: "Aldo y Los Pasteles Verdes",
   tags: ["#Cumbia", "#Nacional"],
