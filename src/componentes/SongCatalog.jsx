@@ -1383,6 +1383,18 @@ const rawSongs = [
       artist: "Cristian Castro",
       tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
       lyricsUrl: "https://www.letras.com/castro-cristian/7156/"
+      },    
+      {
+      title: "Fuego de noche, nieve de día",
+      artist: "Ricky Martin",
+      tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+      lyricsUrl: "https://www.letras.com/ricky-martin/24717/"
+      },    
+      {
+      title: "Tu recuerdo",
+      artist: "Ricky Martin",
+      tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
+      lyricsUrl: "https://www.letras.com/ricky-martin/792703/"
       },
 ];
 
