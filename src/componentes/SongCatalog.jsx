@@ -307,12 +307,6 @@ const rawSongs = [
     lyricsUrl: "https://www.letras.com/fabiana-cantilo/414995/"
   },
   {
-    title: "Extraño ser",
-    artist: "Fabiana Cantilo",
-    tags: ["#Pop", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/fabiana-cantilo/317844/"
-  },
-  {
     title: "Cleopatra, la Reina del Twist",
     artist: "Fabiana Cantilo",
     tags: ["#Rock", "#Nacional", "#MujeresArgentinas"],
