@@ -360,12 +360,6 @@ const rawSongs = [
     tags: ["#Rock", "#Nacional", "#1970s"],
     lyricsUrl: "https://www.letras.com/pedro-y-pablo/la-marcha-de-la-bronca/"
   },
-  {
-    title: "Padre Francisco",
-    artist: "Pedro y Pablo",
-    tags: ["#Rock", "#Nacional", "#1970s"],
-    lyricsUrl: "https://www.letras.com/pedro-y-pablo/padre-francisco/"
-  },
   
   ////////////////////////////////////
   // 2 más de Virus
