@@ -1369,6 +1369,27 @@ const rawSongs = [
         tags: ["#Romántico", "#Pop", "#internacional", "#1990s"],
         lyricsUrl: "https://www.letras.com/ricky-martin/792703/"
         },
+        { title: "Creo", artist: "Callejeros", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/callejeros/creo/" },
+  { title: "Cuando Pase el Temblor", artist: "Soda Stereo", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/soda-stereo/443865/" },
+  { title: "Purple Rain", artist: "Prince", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/prince/purple-rain/" },
+  { title: "Tarea Fina", artist: "Patricio Rey y sus Redonditos de Ricota", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/patricio-rey-y-sus-redonditos-de-ricota/tarea-fina/" },
+  { title: "Shape of You", artist: "Ed Sheeran", tags: ["#Pop", "#Internacional", "#2010s"], lyricsUrl: "https://www.letras.com/ed-sheeran/shape-of-you/" },
+  { title: "Ráfaga de Amor", artist: "Ráfaga", tags: ["#Cumbia", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/rafaga/2319567/" },
+  { title: "Agüita", artist: "Ráfaga", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/rafaga/aguita/" },
+  { title: "Flowers", artist: "Miley Cyrus", tags: ["#Pop", "#Internacional", "#2020s"], lyricsUrl: "https://www.letras.com/miley-cyrus/flowers/" },
+  { title: "Can't Get You Off My Mind", artist: "Lenny Kravitz", tags: ["#Rock", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/lenny-kravitz/cant-get-you-off-my-mind/" },
+  { title: "Somewhere Only We Know", artist: "Keane", tags: ["#Rock", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/keane/70991/" },
+  { title: "Psycho Killer", artist: "Talking Heads", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/talking-heads/12692/" },
+  { title: "Killer Queen", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/killer-queen/" },
+  { title: "Radio Ga Ga", artist: "Queen", tags: ["#Rock", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/queen/69116/" },
+  { title: "Somebody to Love", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/64779/" },
+  { title: "Play the Game", artist: "Queen", tags: ["#Rock", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/queen/64796/" },
+  { title: "Save Me", artist: "Queen", tags: ["#Rock", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/queen/64799/" },
+  { title: "Wish You Were Here", artist: "Pink Floyd", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/pink-floyd/wish-you-were-here/" },
+  { title: "Hoy", artist: "Gloria Estefan", tags: ["#Pop", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/gloria-estefan/461605/" },
+  { title: "La Vida es un Carnaval", artist: "Celia Cruz", tags: ["#Salsa", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/celia-cruz/45950/" },
+  { title: "Vos Sabés", artist: "Los Fabulosos Cadillacs", tags: ["#Ska", "#Nacional"], lyricsUrl: "https://www.letras.com/los-fabulosos-cadillacs/vos-sabes/" },
+  { title: "Un Beso y Una Flor", artist: "Nino Bravo", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/nino-bravo/662791/" }
 ];
 
 function deduplicateSongs(arr) {
