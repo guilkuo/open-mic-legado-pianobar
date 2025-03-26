@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 
 //////////////////////////////////////////////////////////
-// Ahora agregamos un "Ver menos" cuando showAllTags es true.
+// Sólo movemos el input de búsqueda y el botón Reiniciar
+// al footer (sticky bottom). Resto igual.
 //////////////////////////////////////////////////////////
 
 // Canciones con duplicados (los removemos)
@@ -1093,7 +1094,6 @@ const rawSongs = [
     { title: "Latinoamérica", artist: "Calle 13", tags: ["#Reggaeton", "#Internacional", "#2010s"], lyricsUrl: "https://www.letras.com/calle-13/latinoamerica/" },
     { title: "Mi Gente", artist: "Héctor Lavoe", tags: ["#Salsa", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/hector-lavoe/mi-gente/" },
     { title: "Despacito", artist: "Luis Fonsi", tags: ["#Pop", "#Internacional", "#2010s"], lyricsUrl: "https://www.letras.com/luis-fonsi/despacito-feat-daddy-yankee/" },
-    { title: "Zapata se Queda", artist: "Lila Downs", tags: ["#Folklore", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/lila-downs/zapata-se-queda/" },
     { title: "La Bicicleta", artist: "Carlos Vives & Shakira", tags: ["#Pop", "#Internacional", "#2010s"], lyricsUrl: "https://www.letras.com/carlos-vives/la-bicicleta/" },
     { title: "Felices los 4", artist: "Maluma", tags: ["#Reggaeton", "#Internacional", "#2010s"], lyricsUrl: "https://www.letras.com/maluma/felices-los-4/" },
     { title: "BZRP Music Sessions #53", artist: "Shakira & Bizarrap", tags: ["#Pop", "#Internacional", "#2020s"], lyricsUrl: "https://www.letras.com/bizarrap/bzrp-music-sessions-vol-53-shakira/" },
@@ -1388,7 +1388,7 @@ export default function SongCatalog() {
   // Textos en español
   const tituloPrincipal = "Open Mic del Legado Piano Bar";
   const subtituloCurado = "curado por";
-  const placeholderSearch = "Busca tu canción...";
+  const placeholderSearch = "Busca una canción aquí";
   const textoNoResults = "Resultados de la búsqueda";
   const textoListaArtistas = "Lista de Artistas";
   const textoListaCanciones = "Lista de Canciones";
@@ -1585,11 +1585,10 @@ export default function SongCatalog() {
   }
 
   return (
-    // Layout sticky
     <div className="h-screen flex flex-col overflow-hidden">
       {/* Header sticky */}
-      <header className="sticky top-0 z-50 w-full py-6 px-4 text-center shadow-md bg-gray-800 text-white">
-        <h1 className="text-4xl md:text-5xl font-serif font-bold">
+      <header className="sticky top-0 z-50 w-full py-2 px-2 text-center shadow bg-gray-800 text-white">
+        <h1 className="text-2xl md:text-3xl font-serif font-bold">
           {tituloPrincipal}
         </h1>
         <p className="text-base mt-1">
@@ -1605,41 +1604,10 @@ export default function SongCatalog() {
         </p>
       </header>
 
-      {/* Sección sticky con buscador + tags + botones */}
-      <div className="sticky top-[4.5rem] z-40 bg-gray-200 w-full px-4">
-        {/* Buscador */}
-        <div className="max-w-4xl mx-auto w-full mt-2 bg-white p-3 rounded shadow-sm">
-          <input
-            type="text"
-            placeholder={placeholderSearch}
-            className="block w-full text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={globalSearch}
-            onChange={(e) => setGlobalSearch(e.target.value)}
-            onFocus={handleSearchFocus}
-          />
-        </div>
-
-        {/* Botón reiniciar */}
-        <div className="max-w-4xl mx-auto w-full mb-2 mt-2 flex justify-end">
-          <button
-            className="px-2 py-1 text-gray-300 bg-gray-800 rounded hover:bg-gray-700 text-xs"
-            onClick={() => {
-              if (history.length > 0) {
-                const last = history[history.length - 1];
-                setView(last.view);
-                setSelectedTag(last.selectedTag);
-                setGlobalSearch(last.globalSearch);
-                setArtistFilter(last.artistFilter);
-                setHistory((h) => h.slice(0, -1));
-              }
-            }}
-          >
-            {textoReiniciar}
-          </button>
-        </div>
-
+      {/* Sección sticky con etiquetas + botones (pero NO el buscador) */}
+      <div className="sticky top-[3.2rem] z-40 bg-gray-200 w-full px-4">
         {/* Sección de etiquetas */}
-        <div className="max-w-4xl mx-auto w-full mb-2 flex flex-wrap gap-1 justify-center bg-gray-100 p-2 rounded">
+        <div className="max-w-4xl mx-auto w-full mb-1 flex flex-wrap gap-1 justify-center bg-gray-100 p-1 rounded">
           {displayedTags.map((tag, i) => {
             const isSelected = selectedTag === tag;
             const baseClass =
@@ -1729,9 +1697,43 @@ export default function SongCatalog() {
         )}
       </main>
 
-      {/* Footer sticky */}
-      <footer className="sticky bottom-0 z-50 bg-gray-800 text-gray-200 w-full py-2 text-center text-sm">
-        &copy; 2025 - El Legado Piano Bar
+      {/* Footer sticky, con el buscador y reiniciar */}
+      <footer className="sticky bottom-0 z-50 bg-gray-800 text-gray-200 w-full text-center text-sm flex flex-col items-center p-2 gap-2">
+        <div className="max-w-4xl w-full bg-white p-3 rounded shadow-sm">
+          <input
+            type="text"
+            placeholder={placeholderSearch}
+            className="block w-full text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={globalSearch}
+            onChange={(e) => setGlobalSearch(e.target.value)}
+            onFocus={() => {
+              pushHistory();
+              setSelectedTag(null);
+              setArtistFilter(null);
+            }}
+          />
+        </div>
+
+        <div className="max-w-4xl w-full flex justify-end">
+          <button
+            className="px-2 py-1 text-gray-300 bg-gray-700 rounded hover:bg-gray-600 text-xs"
+            onClick={() => {
+              if (history.length > 0) {
+                const last = history[history.length - 1];
+                setView(last.view);
+                setSelectedTag(last.selectedTag);
+                setGlobalSearch(last.globalSearch);
+                setArtistFilter(last.artistFilter);
+                setHistory((h) => h.slice(0, -1));
+              }
+            }}
+          >
+            {textoReiniciar}
+          </button>
+        </div>
+        <div className="text-gray-300">
+          &copy; 2025 - El Legado Piano Bar
+        </div>
       </footer>
     </div>
   );
