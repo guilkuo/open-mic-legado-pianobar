@@ -1404,7 +1404,7 @@ export default function SongCatalog() {
   // Textos en español
   const tituloPrincipal = "Open Mic del Legado Piano Bar";
   const subtituloCurado = "curado por";
-  const placeholderSearch = "Buscador global...";
+  const placeholderSearch = "Busca tu canción...";
   const textoNoResults = "Resultados de la búsqueda";
   const textoListaArtistas = "Lista de Artistas";
   const textoListaCanciones = "Lista de Canciones";
