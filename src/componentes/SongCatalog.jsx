@@ -1383,7 +1383,103 @@ const rawSongs = [
   { title: "Hoy", artist: "Gloria Estefan", tags: ["#Pop", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/gloria-estefan/461605/" },
   { title: "La Vida es un Carnaval", artist: "Celia Cruz", tags: ["#Salsa", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/celia-cruz/45950/" },
   { title: "Vos Sabés", artist: "Los Fabulosos Cadillacs", tags: ["#Ska", "#Nacional"], lyricsUrl: "https://www.letras.com/los-fabulosos-cadillacs/vos-sabes/" },
-  { title: "Un Beso y Una Flor", artist: "Nino Bravo", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/nino-bravo/662791/" }];
+  { title: "Un Beso y Una Flor", artist: "Nino Bravo", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/nino-bravo/662791/" },
+  {
+    title: "Colgando en Tus Manos",
+    artist: "Carlos Baute",
+    tags: ["#Pop", "#Internacional", "#2000s"],
+    lyricsUrl: "https://www.letras.com/carlos-baute/colgando-en-tus-manos/"
+  },
+  {
+    title: "Can't Help Falling in Love",
+    artist: "Elvis Presley",
+    tags: ["#Rock", "#Internacional", "#1960s"],
+    lyricsUrl: "https://www.letras.com/elvis-presley/45018/"
+  },
+  {
+    title: "Unchained Melody",
+    artist: "The Righteous Brothers",
+    tags: ["#Pop", "#Internacional", "#1960s"],
+    lyricsUrl: "https://www.letras.com/righteous-brothers/44785/"
+  },
+  {
+    title: "La Vie en Rose",
+    artist: "Edith Piaf",
+    tags: ["#Chanson", "#Internacional", "#1950s"],
+    lyricsUrl: "https://www.letras.com/edith-piaf/65986/"
+  },
+  {
+    title: "Volare",
+    artist: "Domenico Modugno",
+    tags: ["#Pop", "#Internacional", "#1950s"],
+    lyricsUrl: "https://www.letras.com/domenico-modugno/473140/"
+  },
+  {
+    title: "New York, New York",
+    artist: "Frank Sinatra",
+    tags: ["#Jazz", "#Internacional", "#1970s"],
+    lyricsUrl: "https://www.letras.com/frank-sinatra/new-york-new-york/"
+  },
+  
+  ////////////////////////////////////////////////
+  // Tangos
+  ////////////////////////////////////////////////
+  {
+    title: "Naranjo en Flor",
+    artist: "Roberto Goyeneche",
+    tags: ["#Tango", "#Nacional"],
+    lyricsUrl: "https://www.letras.com/roberto-goyeneche/naranjo-en-flor/"
+  },
+  {
+    title: "Como Dos Extraños",
+    artist: "Carlos Gardel",
+    tags: ["#Tango", "#Nacional"],
+    lyricsUrl: "https://www.letras.com/carlos-gardel/como-dos-extranos/"
+  },
+  {
+    title: "Caminito",
+    artist: "Carlos Gardel",
+    tags: ["#Tango", "#Nacional"],
+    lyricsUrl: "https://www.letras.com/carlos-gardel/caminito/"
+  },
+  {
+    title: "Volver",
+    artist: "Carlos Gardel",
+    tags: ["#Tango", "#Nacional"],
+    lyricsUrl: "https://www.letras.com/carlos-gardel/1590263/"
+  },
+  { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
+  { title: "A Donde Vamos", artist: "Coti", tags: ["#Rock", "#Nacional", "#2000s"], lyricsUrl: "https://www.letras.com/coti/a-donde-vamos/" },
+  { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
+  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional", "#Canción de cancha"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
+  { title: "El Viejo de Arriba", artist: "Bersuit Vergarabat", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/bersuit-vergarabat/el-viejo-de-arriba/" },
+  { title: "Murguita del Sur", artist: "Bersuit Vergarabat", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/bersuit-vergarabat/murguita-del-sur/" },
+  { title: "Me Siento Mucho Mejor", artist: "Charly García", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/charly-garcia/me-siento-mucho-mejor/" },
+  { title: "Besándote", artist: "Los Auténticos Decadentes", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/los-autenticos-decadentes/besandote/" },
+  { title: "No Me Importa el Dinero", artist: "Los Auténticos Decadentes", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/los-autenticos-decadentes/no-me-importa-el-dinero/" },
+  { title: "La Balsa", artist: "Los Gatos", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/los-gatos/595377/" },
+
+  { title: "Caraluna", artist: "Bacilos", tags: ["#Pop", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/bacilos/caraluna/" },
+  { title: "Hasta Que Me Olvides", artist: "Luis Miguel", tags: ["#Pop", "#Internacional"], lyricsUrl: "https://www.letras.com/luis-miguel/70422/" },
+  { title: "Historia de un Amor", artist: "Carlos Eleta Almarán", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/varios-artistas/488561/" },
+  { title: "Perfidia", artist: "Trío Los Panchos", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/los-panchos/perfidia/" },
+  { title: "Y Nos Dieron las 10", artist: "Joaquín Sabina", tags: ["#Pop", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/joaquin-sabina/82955/" },
+  { title: "Están Lloviendo Estrellas", artist: "Cristian Castro", tags: ["#Pop", "#Internacional"], lyricsUrl: "https://www.letras.com/cristian-castro/10041/" },
+  { title: "11 y 6", artist: "Fito Páez", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/fito-paez/69040/" },
+  { title: "Alfonsina y el Mar", artist: "Mercedes Sosa", tags: ["#Folklore", "#Nacional"], lyricsUrl: "https://www.letras.com/mercedes-sosa/75750/" },
+
+  { title: "You're the One That I Want", artist: "Grease (John Travolta & Olivia Newton-John)", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/grease-youre-the-one-that-i-want/" },
+
+  { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
+  { title: "Heal the World", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/michael-jackson/44856/" },
+  { title: "Black or White", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/michael-jackson/67545/" },
+  { title: "Beat It", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/44995/" },
+
+  { title: "Rock DJ", artist: "Robbie Williams", tags: ["#Pop", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/robbie-williams/15473/" },
+  { title: "Angels", artist: "Robbie Williams", tags: ["#Pop", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/robbie-williams/15470/" },
+
+];
+  
 
 function deduplicateSongs(arr) {
   const seen = new Set();
