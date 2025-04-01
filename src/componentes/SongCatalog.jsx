@@ -1,9 +1,4 @@
-import { useState, useMemo } from "react";
-
-//////////////////////////////////////////////////////////
-// Sólo movemos el input de búsqueda y el botón Reiniciar
-// al footer (sticky bottom). Resto igual.
-//////////////////////////////////////////////////////////
+import { useState, useEffect, useMemo, useRef } from "react";
 
 // Canciones con duplicados (los removemos)
 const rawSongs = [
@@ -1389,8 +1384,7 @@ const rawSongs = [
   { title: "Hoy", artist: "Gloria Estefan", tags: ["#Pop", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/gloria-estefan/461605/" },
   { title: "La Vida es un Carnaval", artist: "Celia Cruz", tags: ["#Salsa", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/celia-cruz/45950/" },
   { title: "Vos Sabés", artist: "Los Fabulosos Cadillacs", tags: ["#Ska", "#Nacional"], lyricsUrl: "https://www.letras.com/los-fabulosos-cadillacs/vos-sabes/" },
-  { title: "Un Beso y Una Flor", artist: "Nino Bravo", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/nino-bravo/662791/" }
-];
+  { title: "Un Beso y Una Flor", artist: "Nino Bravo", tags: ["#Pop", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/nino-bravo/662791/" }];
 
 function deduplicateSongs(arr) {
   const seen = new Set();
@@ -1409,7 +1403,7 @@ export default function SongCatalog() {
   // Textos en español
   const tituloPrincipal = "Open Mic del Legado Piano Bar";
   const subtituloCurado = "curado por";
-  const placeholderSearch = "Busca una canción aquí";
+  const placeholderSearch = "Busca tu canción acá";
   const textoNoResults = "Resultados de la búsqueda";
   const textoListaArtistas = "Lista de Artistas";
   const textoListaCanciones = "Lista de Canciones";
@@ -1424,8 +1418,11 @@ export default function SongCatalog() {
   const [view, setView] = useState("songs");
   const [artistFilter, setArtistFilter] = useState(null);
 
-  // Para la sección de “Ver más” en tags
-  const [showAllTags, setShowAllTags] = useState(false);
+  // Eliminamos "ver más" y "ver menos" en los tags – lo sustituimos por un carousel scrolleable
+  // (But if you want to keep them, you can combine approaches.)
+  
+  // Botón "Volver arriba"
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const songs = useMemo(() => deduplicateSongs(rawSongs), []);
 
@@ -1441,6 +1438,7 @@ export default function SongCatalog() {
     [songs]
   );
 
+  // Para manejar la "historia" (undo)
   function pushHistory() {
     setHistory((h) => [
       ...h,
@@ -1452,7 +1450,6 @@ export default function SongCatalog() {
       },
     ]);
   }
-
   function undo() {
     if (history.length > 0) {
       const last = history[history.length - 1];
@@ -1464,34 +1461,27 @@ export default function SongCatalog() {
     }
   }
 
-  // Reordenar las tags (mismo que antes).
+  // Reordenar las tags, priorizando #Nacional, #Internacional, etc.
   function tagPriority(tag) {
     const label = tag.replace("#", "");
     if (label === "Nacional") return "1";
     if (label === "Internacional") return "2";
     if (label === "Rock") return "3";
     if (label === "Cumbia") return "4";
-    const decadeMatch = label.match(/^\d{4}s$/);
+    const decadeMatch = label.match(/^(\d{4})s$/);
     if (decadeMatch) {
-      const decadeVal = parseInt(label, 10);
-      return "5_" + decadeVal;
+      return "5_" + decadeMatch[1];
     }
     return "6_" + label;
   }
 
   const sortedTags = useMemo(() => {
     return allTags.slice().sort((a, b) => {
-      const priA = tagPriority(a);
-      const priB = tagPriority(b);
-      if (priA < priB) return -1;
-      if (priA > priB) return 1;
-      return 0;
+      const pa = tagPriority(a);
+      const pb = tagPriority(b);
+      return pa.localeCompare(pb);
     });
   }, [allTags]);
-
-  // Se muestran ~5 en la primera vista
-  const canShowMore = sortedTags.length > 5;
-  const displayedTags = showAllTags ? sortedTags : sortedTags.slice(0, 5);
 
   // Reordenar la lista de artistas priorizando la cantidad de canciones.
   const filteredArtists = useMemo(() => {
@@ -1511,6 +1501,7 @@ export default function SongCatalog() {
     });
   }, [allArtists, selectedTag, songs]);
 
+  // Filtrar por search
   const isSearching = globalSearch.trim() !== "";
   const searchResults = useMemo(() => {
     const term = globalSearch.toLowerCase();
@@ -1524,6 +1515,7 @@ export default function SongCatalog() {
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [songs, globalSearch]);
 
+  // Filtrado final de songs
   const filteredSongs = useMemo(() => {
     return songs
       .filter((s) => (!selectedTag ? true : s.tags.includes(selectedTag)))
@@ -1531,12 +1523,31 @@ export default function SongCatalog() {
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [songs, selectedTag, artistFilter]);
 
+  // Mover scroll top
+  function handleGoTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  // Detectar cuando scrolled
+  useEffect(() => {
+    function handleScroll() {
+      const scrolled = window.scrollY;
+      if (scrolled > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Funciones de UI
   function handleSearchFocus() {
     pushHistory();
     setSelectedTag(null);
     setArtistFilter(null);
   }
-
   function showArtists() {
     pushHistory();
     setView("artists");
@@ -1549,7 +1560,6 @@ export default function SongCatalog() {
     setSelectedTag(null);
     setArtistFilter(null);
   }
-
   function handleArtistClick(artist) {
     pushHistory();
     setArtistFilter(artist);
@@ -1557,7 +1567,6 @@ export default function SongCatalog() {
     setSelectedTag(null);
     setGlobalSearch("");
   }
-
   function handleSongArtistClick(artist) {
     pushHistory();
     setArtistFilter(artist);
@@ -1565,11 +1574,9 @@ export default function SongCatalog() {
     setSelectedTag(null);
     setGlobalSearch("");
   }
-
   function handleSongTitleClick() {
     // sin increment
   }
-
   function handleSongTagClick(tag) {
     pushHistory();
     setGlobalSearch("");
@@ -1577,6 +1584,7 @@ export default function SongCatalog() {
     setSelectedTag((prev) => (prev === tag ? null : tag));
   }
 
+  // Render principal
   let content;
   if (isSearching) {
     content = (
@@ -1605,10 +1613,24 @@ export default function SongCatalog() {
     );
   }
 
+  // Carousel de tags => container con scroll horizontal
+  const tagContainerRef = useRef(null);
+
+  function scrollTagsLeft() {
+    if (tagContainerRef.current) {
+      tagContainerRef.current.scrollBy({ left: -100, behavior: "smooth" });
+    }
+  }
+  function scrollTagsRight() {
+    if (tagContainerRef.current) {
+      tagContainerRef.current.scrollBy({ left: 100, behavior: "smooth" });
+    }
+  }
+
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      {/* Header sticky */}
-      <header className="sticky top-0 z-50 w-full py-2 px-2 text-center shadow bg-gray-800 text-white">
+      {/* Header (no sticky?), si lo deseas sticky top */}
+      <header className="w-full py-2 px-2 text-center shadow bg-gray-800 text-white">
         <h1 className="text-2xl md:text-3xl font-serif font-bold">
           {tituloPrincipal}
         </h1>
@@ -1625,22 +1647,43 @@ export default function SongCatalog() {
         </p>
       </header>
 
-      {/* Sección sticky con etiquetas + botones (pero NO el buscador) */}
-      <div className="sticky top-[3.2rem] z-40 bg-gray-200 w-full px-4">
-        {/* Sección de etiquetas */}
-        <div className="max-w-4xl mx-auto w-full mb-1 flex flex-wrap gap-1 justify-center bg-gray-100 p-1 rounded">
-          {displayedTags.map((tag, i) => {
+      {/* Buscador (debajo del header) */}
+      <div className="bg-gray-200 w-full px-4 py-2">
+        <div className="max-w-4xl mx-auto w-full bg-white p-2 rounded shadow-sm">
+          <input
+            type="text"
+            placeholder={placeholderSearch}
+            className="block w-full text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={globalSearch}
+            onChange={(e) => setGlobalSearch(e.target.value)}
+            onFocus={handleSearchFocus}
+          />
+        </div>
+      </div>
+
+      {/* Sección de etiquetas estilo carrusel */}
+      <div className="bg-gray-100 px-4 py-2 flex items-center gap-2">
+        <button
+          className="px-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+          onClick={scrollTagsLeft}
+        >
+          &#10094; {/* flecha izquierda */}
+        </button>
+        <div
+          ref={tagContainerRef}
+          className="flex-1 overflow-x-auto whitespace-nowrap scrollbar-hide"
+        >
+          {sortedTags.map((tag, idx) => {
             const isSelected = selectedTag === tag;
             const baseClass =
-              "text-sm font-medium px-2 py-1 rounded cursor-pointer transition border";
-            let bgClass =
-              " bg-white text-gray-700 border-gray-300 hover:bg-gray-50";
+              "inline-block text-sm font-medium mx-1 px-2 py-1 rounded cursor-pointer transition border";
+            let bgClass = " bg-white text-gray-700 border-gray-300 hover:bg-gray-50";
             if (isSelected) {
               bgClass = " bg-gray-300 text-gray-800 border-gray-300";
             }
             return (
               <span
-                key={i}
+                key={idx}
                 onClick={() => {
                   pushHistory();
                   setGlobalSearch("");
@@ -1653,56 +1696,51 @@ export default function SongCatalog() {
               </span>
             );
           })}
-          {/* Botón 'Ver más' si hay más de 5 tags, o 'Ver menos' si showAllTags === true */}
-          {canShowMore && (
-            !showAllTags ? (
-              <button
-                className="text-sm px-2 py-1 rounded bg-gray-200 hover:bg-gray-300"
-                onClick={() => setShowAllTags(true)}
-              >
-                Ver más
-              </button>
-            ) : (
-              <button
-                className="text-sm px-2 py-1 rounded bg-gray-200 hover:bg-gray-300"
-                onClick={() => setShowAllTags(false)}
-              >
-                Ver menos
-              </button>
-            )
-          )}
         </div>
-
-        {/* Botones ver canciones / artistas */}
-        <div className="max-w-4xl mx-auto w-full mb-2 flex flex-wrap justify-center gap-4 p-2 bg-gray-200">
-          <button
-            onClick={() => {
-              pushHistory();
-              setView("songs");
-              setSelectedTag(null);
-              setArtistFilter(null);
-            }}
-            className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
-          >
-            {textoVerSongs}
-          </button>
-          <button
-            onClick={() => {
-              pushHistory();
-              setView("artists");
-              setSelectedTag(null);
-              setArtistFilter(null);
-            }}
-            className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
-          >
-            {textoVerArtists}
-          </button>
-        </div>
+        <button
+          className="px-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+          onClick={scrollTagsRight}
+        >
+          &#10095; {/* flecha derecha */}
+        </button>
       </div>
 
-      {/* Contenido principal scrollable */}
-      <main className="flex-1 overflow-y-auto px-4 pb-2 pt-2">
+      {/* Botones ver canciones / artistas */}
+      <div className="bg-gray-200 px-4 py-2 flex flex-wrap justify-center gap-4">
+        <button
+          onClick={() => {
+            pushHistory();
+            setView("songs");
+            setSelectedTag(null);
+            setArtistFilter(null);
+          }}
+          className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
+        >
+          {textoVerSongs}
+        </button>
+        <button
+          onClick={() => {
+            pushHistory();
+            setView("artists");
+            setSelectedTag(null);
+            setArtistFilter(null);
+          }}
+          className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
+        >
+          {textoVerArtists}
+        </button>
+        <button
+          className="px-2 py-1 ml-auto bg-gray-700 text-gray-100 text-xs rounded hover:bg-gray-600"
+          onClick={undo}
+        >
+          {textoReiniciar}
+        </button>
+      </div>
+
+      {/* Contenido principal */}
+      <main className="flex-1 overflow-y-auto px-4 py-2 relative">
         {content}
+
         {selectedTag && (
           <div className="text-center mt-6">
             <button
@@ -1718,44 +1756,15 @@ export default function SongCatalog() {
         )}
       </main>
 
-      {/* Footer sticky, con el buscador y reiniciar */}
-      <footer className="sticky bottom-0 z-50 bg-gray-800 text-gray-200 w-full text-center text-sm flex flex-col items-center p-2 gap-2">
-        <div className="max-w-4xl w-full bg-white p-3 rounded shadow-sm">
-          <input
-            type="text"
-            placeholder={placeholderSearch}
-            className="block w-full text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={globalSearch}
-            onChange={(e) => setGlobalSearch(e.target.value)}
-            onFocus={() => {
-              pushHistory();
-              setSelectedTag(null);
-              setArtistFilter(null);
-            }}
-          />
-        </div>
-
-        <div className="max-w-4xl w-full flex justify-end">
-          <button
-            className="px-2 py-1 text-gray-300 bg-gray-700 rounded hover:bg-gray-600 text-xs"
-            onClick={() => {
-              if (history.length > 0) {
-                const last = history[history.length - 1];
-                setView(last.view);
-                setSelectedTag(last.selectedTag);
-                setGlobalSearch(last.globalSearch);
-                setArtistFilter(last.artistFilter);
-                setHistory((h) => h.slice(0, -1));
-              }
-            }}
-          >
-            {textoReiniciar}
-          </button>
-        </div>
-        <div className="text-gray-300">
-          &copy; 2025 - El Legado Piano Bar
-        </div>
-      </footer>
+      {/* Botón volver arriba, si scrolled */}
+      {showBackToTop && (
+        <button
+          className="fixed bottom-14 right-4 z-50 bg-blue-600 text-white px-3 py-2 rounded shadow-md hover:bg-blue-700"
+          onClick={handleGoTop}
+        >
+          Volver Arriba
+        </button>
+      )}
     </div>
   );
 }
@@ -1763,8 +1772,8 @@ export default function SongCatalog() {
 function SearchResultsSection({ results, textoNoResults, onArtistClick, onSongClick }) {
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4 text-center">{textoNoResults}</h2>
-      <ul className="w-full max-w-2xl mx-auto space-y-3">
+      <h2 className="text-2xl font-bold mb-2 text-center">{textoNoResults}</h2>
+      <ul className="w-full max-w-2xl mx-auto">
         {results.map((song, idx) => (
           <SongItem
             key={idx}
@@ -1781,16 +1790,17 @@ function SearchResultsSection({ results, textoNoResults, onArtistClick, onSongCl
 function ArtistsSection({ artists, onArtistClick }) {
   return (
     <div className="flex flex-col items-center w-full">
-      <h2 className="text-2xl font-bold mb-4">Lista de Artistas</h2>
-      <ul className="w-full md:w-2/3 space-y-2">
+      <h2 className="text-2xl font-bold mb-2">Lista de Artistas</h2>
+      <ul className="w-full md:w-2/3">
         {artists.map((artist, index) => (
           <li
             key={index}
-            className="bg-white border border-gray-200 p-3 rounded shadow-sm hover:shadow-md transition"
+            // Eliminamos contenedores grandes, un simple border-b
+            className="text-sm text-gray-800 py-1 border-b border-gray-200"
           >
             <button
               onClick={() => onArtistClick(artist)}
-              className="text-lg font-medium text-indigo-800 hover:underline"
+              className="text-base font-medium text-indigo-800 hover:underline"
             >
               {artist}
             </button>
@@ -1804,8 +1814,9 @@ function ArtistsSection({ artists, onArtistClick }) {
 function SongsSection({ songs, onArtistClick, onSongClick, onTagClick }) {
   return (
     <div className="flex flex-col items-center w-full">
-      <h2 className="text-2xl font-bold mb-4">Lista de Canciones</h2>
-      <ul className="w-full max-w-2xl space-y-3">
+      <h2 className="text-2xl font-bold mb-2">Lista de Canciones</h2>
+      {/* Usamos un contenedor <ul> normal */}
+      <ul className="w-full max-w-2xl">
         {songs.map((song, index) => (
           <SongItem
             key={index}
@@ -1821,12 +1832,12 @@ function SongsSection({ songs, onArtistClick, onSongClick, onTagClick }) {
 }
 
 function SongItem({ song, onArtistClick, onSongClick, onTagClick }) {
+  // Menos espacio => un simple li con border-b
   function handleTitleClick() {
     if (onSongClick) {
       onSongClick(song.title);
     }
   }
-
   function handleTag(tag) {
     if (onTagClick) {
       onTagClick(tag);
@@ -1834,34 +1845,30 @@ function SongItem({ song, onArtistClick, onSongClick, onTagClick }) {
   }
 
   return (
-    <li className="bg-white text-gray-800 border border-gray-200 p-4 rounded shadow-sm hover:shadow-md transition flex items-center justify-between">
+    <li className="py-1 text-sm flex justify-between items-start">
       <div>
         <a
           href={song.lyricsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-base font-semibold text-indigo-900 hover:underline"
           onClick={handleTitleClick}
+          className="text-base font-semibold text-indigo-800 hover:underline"
         >
           {song.title}
         </a>
-        <span
-          className="block text-sm text-indigo-600 cursor-pointer hover:underline"
-          onClick={() => {
-            if (onArtistClick) {
-              onArtistClick(song.artist);
-            }
-          }}
+        <div
+          onClick={() => onArtistClick && onArtistClick(song.artist)}
+          className="text-xs text-indigo-600 cursor-pointer hover:underline"
         >
           {song.artist}
-        </span>
+        </div>
       </div>
-      <div className="flex flex-wrap gap-2 justify-end ml-2">
+      <div className="flex flex-wrap justify-end ml-2">
         {song.tags.map((tag, i) => (
           <span
             key={i}
             onClick={() => handleTag(tag)}
-            className="text-xs font-medium text-gray-700 bg-white border border-gray-300 px-2 py-1 rounded cursor-pointer hover:bg-gray-100"
+            className="text-xs font-medium text-gray-700 border border-gray-300 px-1 py-0.5 rounded cursor-pointer hover:bg-gray-100 ml-1"
           >
             {tag}
           </span>
@@ -1871,7 +1878,7 @@ function SongItem({ song, onArtistClick, onSongClick, onTagClick }) {
   );
 }
 
-// (Test no changed)
+// Test no changed
 export function testSongCatalog() {
   if (!Array.isArray(rawSongs)) {
     throw new Error("rawSongs is not an array");
