@@ -1,77 +1,21 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 
-// Canciones con duplicados (los removemos)
 const rawSongs = [
-  {
-    title: "La Barca",
-    artist: "Luis Miguel",
-    tags: ["#Bolero", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/luis-miguel/la-barca/"
-  },
-  {
-    title: "Historia de un amor",
-    artist: "Luis Miguel",
-    tags: ["#Bolero", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/luis-miguel/26127/"
-  },
-  {
-    title: "Sueña",
-    artist: "Luis Miguel",
-    tags: ["#Bolero", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/luis-miguel/108645/"
-  },
-  {
-    title: "Amarte es un placer",
-    artist: "Luis Miguel",
-    tags: ["#Bolero", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/luis-miguel/62413/"
-  },
-  {
-    title: "La Incondicional",
-    artist: "Luis Miguel",
-    tags: ["#Bolero", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/luis-miguel/26125/"
-  },
+  { title: "La Barca", artist: "Luis Miguel", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/luis-miguel/la-barca/" },
+  { title: "Historia de un amor", artist: "Luis Miguel", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/luis-miguel/26127/" },
+  { title: "Sueña", artist: "Luis Miguel", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/luis-miguel/108645/" },
+  { title: "Amarte es un placer", artist: "Luis Miguel", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/luis-miguel/62413/" },
+  { title: "La Incondicional", artist: "Luis Miguel", tags: ["#Bolero", "#Internacional"], lyricsUrl: "https://www.letras.com/luis-miguel/26125/" },
   
   ////////////////////////////////////
   // 5 canciones de Shakira (muy conocidas en Argentina)
   ////////////////////////////////////
-  {
-    title: "Estoy Aquí",
-    artist: "Shakira",
-    tags: ["#Pop", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/shakira/35912/"
-  },
-  {
-    title: "Inevitable",
-    artist: "Shakira",
-    tags: ["#Pop", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/shakira/35926/"
-  },
-  {
-    title: "Ciega, Sordomuda",
-    artist: "Shakira",
-    tags: ["#Pop", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/shakira/35922/"
-  },
-  {
-    title: "Pies descalzos, sueños blancos",
-    artist: "Shakira",
-    tags: ["#Pop", "#Internacional"],
-    lyricsUrl: "https://www.letras.com/shakira/25555/"
-  },
-  {
-    title: "Hips Don't Lie",
-    artist: "Shakira",
-    tags: ["#Pop", "#Internacional", "#2000s"],
-    lyricsUrl: "https://www.letras.com/shakira/hips-dont-lie/"
-  },
-  {
-    title: "Waka Waka",
-    artist: "Shakira",
-    tags: ["#Pop", "#Internacional", "#2010s"],
-    lyricsUrl: "https://www.letras.com/shakira/waka-waka/"
-  },
+  { title: "Estoy Aquí", artist: "Shakira", tags: ["#Pop", "#Internacional"], lyricsUrl: "https://www.letras.com/shakira/35912/" },
+  { title: "Inevitable", artist: "Shakira", tags: ["#Pop", "#Internacional"], lyricsUrl: "https://www.letras.com/shakira/35926/" },
+  { title: "Ciega, Sordomuda", artist: "Shakira", tags: ["#Pop", "#Internacional"], lyricsUrl: "https://www.letras.com/shakira/35922/" },
+  { title: "Pies descalzos, sueños blancos", artist: "Shakira", tags: ["#Pop", "#Internacional"], lyricsUrl: "https://www.letras.com/shakira/25555/" },
+  { title: "Hips Don't Lie", artist: "Shakira", tags: ["#Pop", "#Internacional", "#2000s"], lyricsUrl: "https://www.letras.com/shakira/hips-dont-lie/" },
+  { title: "Waka Waka", artist: "Shakira", tags: ["#Pop", "#Internacional", "#2010s"], lyricsUrl: "https://www.letras.com/shakira/waka-waka/" },
   
   ////////////////////////////////////
   // Etiqueta #TV => 3 de Chiquititas, 2 de Floricienta, 2 de Cebollitas, 2 de Las Primas,
@@ -79,495 +23,165 @@ const rawSongs = [
   ////////////////////////////////////
   
   // Chiquititas
-  {
-    title: "Corazón con Agujeritos",
-    artist: "Chiquititas",
-    tags: ["#TV", "#Infantil", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/chiquititas/713778/"
-  },
-  {
-    title: "Pimpollo",
-    artist: "Chiquititas",
-    tags: ["#TV", "#Infantil", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/chiquititas/pimpollo/"
-  },
-  {
-    title: "Todo Todo Todo",
-    artist: "Chiquititas",
-    tags: ["#TV", "#Infantil", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/chiquititas/713793/"
-  },
+  { title: "Corazón con Agujeritos", artist: "Chiquititas", tags: ["#TV", "#Infantil", "#Nacional"], lyricsUrl: "https://www.letras.com/chiquititas/713778/" },
+  { title: "Pimpollo", artist: "Chiquititas", tags: ["#TV", "#Infantil", "#Nacional"], lyricsUrl: "https://www.letras.com/chiquititas/pimpollo/" },
+  { title: "Todo Todo Todo", artist: "Chiquititas", tags: ["#TV", "#Infantil", "#Nacional"], lyricsUrl: "https://www.letras.com/chiquititas/713793/" },
   
   // Floricienta
-  {
-    title: "Flores Amarillas",
-    artist: "Floricienta",
-    tags: ["#TV", "#Infantil", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/floricienta/206957/"
-  },
+  { title: "Flores Amarillas", artist: "Floricienta", tags: ["#TV", "#Infantil", "#Nacional"], lyricsUrl: "https://www.letras.com/floricienta/206957/" },
   
   // Cebollitas
-  {
-    title: "Subcampeón",
-    artist: "Cebollitas",
-    tags: ["#TV", "#Infantil", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/cebollitas/subcampeon/"
-  },
+  { title: "Subcampeón", artist: "Cebollitas", tags: ["#TV", "#Infantil", "#Nacional"], lyricsUrl: "https://www.letras.com/cebollitas/subcampeon/" },
   // Las Primas
-  {
-    title: "Saca la Mano Antonio",
-    artist: "Las Primas",
-    tags: ["#TV", "#Pop", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/las-primas/saca-la-mano-antonio/"
-  },
+  { title: "Saca la Mano Antonio", artist: "Las Primas", tags: ["#TV", "#Pop", "#Nacional"], lyricsUrl: "https://www.letras.com/las-primas/saca-la-mano-antonio/" },
   
   // 5 cortinas de televisión argentina de los años 90
-  {
-    title: "Amigovios",
-    artist: "Cortina TV",
-    tags: ["#TV", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/varios/amigovios/"
-  },
-  {
-    title: "La Banda del Golden Rocket",
-    artist: "Cortina TV",
-    tags: ["#TV", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/varios/la-banda-del-golden-rocket/"
-  },
+  { title: "Amigovios", artist: "Cortina TV", tags: ["#TV", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/varios/amigovios/" },
+  { title: "La Banda del Golden Rocket", artist: "Cortina TV", tags: ["#TV", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/varios/la-banda-del-golden-rocket/" },
   
   // 5 Canciones clásicas de Disney de distintas décadas
-  {
-    title: "Un Mundo Ideal",
-    artist: "Disney (Aladdin)",
-    tags: ["#TV", "#Infantil", "#Internacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/aladdin/un-mundo-ideal/"
-  },
-  {
-    title: "Bella y Bestia Son",
-    artist: "Disney (La Bella y la Bestia)",
-    tags: ["#TV", "#Infantil", "#Internacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/disney/bella-y-bestia-son/"
-  },
+  { title: "Un Mundo Ideal", artist: "Disney (Aladdin)", tags: ["#TV", "#Infantil", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/aladdin/un-mundo-ideal/" },
+  { title: "Bella y Bestia Son", artist: "Disney (La Bella y la Bestia)", tags: ["#TV", "#Infantil", "#Internacional", "#1990s"], lyricsUrl: "https://www.letras.com/disney/bella-y-bestia-son/" },
   
   
   ////////////////////////////////////
   // Género Cuarteto: 5 canciones de Rodrigo
   ////////////////////////////////////
-  {
-    title: "La Mano de Dios",
-    artist: "Rodrigo",
-    tags: ["#Cuarteto", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/rodrigo/la-mano-de-dios/"
-  },
-  {
-    title: "Ocho Cuarenta",
-    artist: "Rodrigo",
-    tags: ["#Cuarteto", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/rodrigo/599857/"
-  },
-  {
-    title: "Amor Clasificado",
-    artist: "Rodrigo",
-    tags: ["#Cuarteto", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/rodrigo/195569/"
-  },
-  {
-    title: "Cómo le digo",
-    artist: "Rodrigo",
-    tags: ["#Cuarteto", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/rodrigo/196492/"
-  },
+  { title: "La Mano de Dios", artist: "Rodrigo", tags: ["#Cuarteto", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/rodrigo/la-mano-de-dios/" },
+  { title: "Ocho Cuarenta", artist: "Rodrigo", tags: ["#Cuarteto", "#Nacional"], lyricsUrl: "https://www.letras.com/rodrigo/599857/" },
+  { title: "Amor Clasificado", artist: "Rodrigo", tags: ["#Cuarteto", "#Nacional"], lyricsUrl: "https://www.letras.com/rodrigo/195569/" },
+  { title: "Cómo le digo", artist: "Rodrigo", tags: ["#Cuarteto", "#Nacional"], lyricsUrl: "https://www.letras.com/rodrigo/196492/" },
   
   ////////////////////////////////////
   // De La Mona Jiménez
   ////////////////////////////////////
-  {
-    title: "Quien Se Ha Tomado Todo el Vino",
-    artist: "La Mona Jiménez",
-    tags: ["#Cuarteto", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/la-mona-jimenez/quien-se-ha-tomado-todo-el-vino/"
-  },
-  {
-    title: "Beso a Beso",
-    artist: "La Mona Jiménez",
-    tags: ["#Cuarteto", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/la-mona-jimenez/beso-a-beso/"
-  },
+  { title: "Quien Se Ha Tomado Todo el Vino", artist: "La Mona Jiménez", tags: ["#Cuarteto", "#Nacional"], lyricsUrl: "https://www.letras.com/la-mona-jimenez/quien-se-ha-tomado-todo-el-vino/" },
+  { title: "Beso a Beso", artist: "La Mona Jiménez", tags: ["#Cuarteto", "#Nacional"], lyricsUrl: "https://www.letras.com/la-mona-jimenez/beso-a-beso/" },
   
   ////////////////////////////////////
   // Luck Ra
   ////////////////////////////////////
-  {
-    title: "La Morocha",
-    artist: "Luck Ra",
-    tags: ["#Cuarteto", "#Nacional", "#2020s"],
-    lyricsUrl: "https://www.letras.com/luck-ra/la-morocha/"
-  },
-  {
-    title: "Hola Perdida",
-    artist: "Luck Ra",
-    tags: ["#Cuarteto", "#Nacional", "#2020s"],
-    lyricsUrl: "https://www.letras.com/luck-ra/hola-perdida-part-khea/"
-  },
+  { title: "La Morocha", artist: "Luck Ra", tags: ["#Cuarteto", "#Nacional", "#2020s"], lyricsUrl: "https://www.letras.com/luck-ra/la-morocha/" },
+  { title: "Hola Perdida", artist: "Luck Ra", tags: ["#Cuarteto", "#Nacional", "#2020s"], lyricsUrl: "https://www.letras.com/luck-ra/hola-perdida-part-khea/" },
   ////////////////////////////////////
   // Tag #MujeresArgentinas para Emilia Mernes, María Becerra, Nicki Nicole, Tita Merello, Susana Gimenez, Mercedes Sosa, Erica García, Hilda Lizarazu, Fabiana Cantilo
   ////////////////////////////////////
   
   // 3 Emilia Mernes
-  {
-    title: "Perdonarte, Para qué?",
-    artist: "Emilia Mernes",
-    tags: ["#Pop", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/los-angeles-azules/perdonarte-para-que-part-emilia/"
-  },
-  {
-    title: "Automático",
-    artist: "María Becerra",
-    tags: ["#Pop", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/maria-becerra/automatico/"
-  },
+  { title: "Perdonarte, Para qué?", artist: "Emilia Mernes", tags: ["#Pop", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/los-angeles-azules/perdonarte-para-que-part-emilia/" },
+  { title: "Automático", artist: "María Becerra", tags: ["#Pop", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/maria-becerra/automatico/" },
   // 2 Tita Merello
-  {
-    title: "Se Dice de Mí",
-    artist: "Tita Merello",
-    tags: ["#Tango", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/tita-merello/se-dice-de-mi/"
-  },
+  { title: "Se Dice de Mí", artist: "Tita Merello", tags: ["#Tango", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/tita-merello/se-dice-de-mi/" },
   
   
   // 5 temas folklóricos de Mercedes Sosa
-  {
-    title: "Gracias a la Vida",
-    artist: "Mercedes Sosa",
-    tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/mercedes-sosa/37544/"
-  },
-  {
-    title: "Alfonsina y el Mar",
-    artist: "Mercedes Sosa",
-    tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/mercedes-sosa/37548/"
-  },
-  {
-    title: "Todo Cambia",
-    artist: "Mercedes Sosa",
-    tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/mercedes-sosa/37545/"
-  },
-  {
-    title: "Como la cigarra",
-    artist: "Mercedes Sosa",
-    tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/mercedes-sosa/63295/"
-  },
+  { title: "Gracias a la Vida", artist: "Mercedes Sosa", tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/mercedes-sosa/37544/" },
+  { title: "Alfonsina y el Mar", artist: "Mercedes Sosa", tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/mercedes-sosa/37548/" },
+  { title: "Todo Cambia", artist: "Mercedes Sosa", tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/mercedes-sosa/37545/" },
+  { title: "Como la cigarra", artist: "Mercedes Sosa", tags: ["#Folklore", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/mercedes-sosa/63295/" },
   
   // 2 temas de Erica García
-  {
-    title: "Positiva",
-    artist: "Erica García",
-    tags: ["#Rock", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/erica-garcia/positiva/"
-  },
+  { title: "Positiva", artist: "Erica García", tags: ["#Rock", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/erica-garcia/positiva/" },
   
   // 4 temas de Hilda Lizarazu
-  {
-    title: "Caribe Sur",
-    artist: "Hilda Lizarazu",
-    tags: ["#Pop", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/man-ray/197466/"
-  },
-  {
-    title: "Todo cambia",
-    artist: "Hilda Lizarazu",
-    tags: ["#Pop", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/man-ray/196184/"
-  },
-  {
-    title: "Sola en los bares",
-    artist: "Hilda Lizarazu",
-    tags: ["#Pop", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/man-ray/197505/"
-  },
+  { title: "Caribe Sur", artist: "Hilda Lizarazu", tags: ["#Pop", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/man-ray/197466/" },
+  { title: "Todo cambia", artist: "Hilda Lizarazu", tags: ["#Pop", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/man-ray/196184/" },
+  { title: "Sola en los bares", artist: "Hilda Lizarazu", tags: ["#Pop", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/man-ray/197505/" },
   
   // 7 temas de Fabiana Cantilo
-  {
-    title: "Mi Enfermedad",
-    artist: "Fabiana Cantilo",
-    tags: ["#Rock", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/fabiana-cantilo/387805/"
-  },
-  {
-    title: "Mary Poppins y el Deshollinador",
-    artist: "Fabiana Cantilo",
-    tags: ["#Rock", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/fabiana-cantilo/414995/"
-  },
-  {
-    title: "Cleopatra, la Reina del Twist",
-    artist: "Fabiana Cantilo",
-    tags: ["#Rock", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/fabiana-cantilo/387791/"
-  },
-  {
-    title: "Ya Fue",
-    artist: "Fabiana Cantilo",
-    tags: ["#Rock", "#Nacional", "#MujeresArgentinas"],
-    lyricsUrl: "https://www.letras.com/fabiana-cantilo/ya-fue/"
-  },
+  { title: "Mi Enfermedad", artist: "Fabiana Cantilo", tags: ["#Rock", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/fabiana-cantilo/387805/" },
+  { title: "Mary Poppins y el Deshollinador", artist: "Fabiana Cantilo", tags: ["#Rock", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/fabiana-cantilo/414995/" },
+  { title: "Cleopatra, la Reina del Twist", artist: "Fabiana Cantilo", tags: ["#Rock", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/fabiana-cantilo/387791/" },
+  { title: "Ya Fue", artist: "Fabiana Cantilo", tags: ["#Rock", "#Nacional", "#MujeresArgentinas"], lyricsUrl: "https://www.letras.com/fabiana-cantilo/ya-fue/" },
   
   ////////////////////////////////////
   // 3 canciones de Vilma Palma
   ////////////////////////////////////
-  {
-    title: "La Pachanga",
-    artist: "Vilma Palma e Vampiros",
-    tags: ["#Rock", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/vilma-palma-e-vampiros/129501/"
-  },
-  {
-    title: "Auto Rojo",
-    artist: "Vilma Palma e Vampiros",
-    tags: ["#Rock", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/vilma-palma-e-vampiros/68974/"
-  },
-  {
-    title: "Bye Bye (dejame que te toque la piel",
-    artist: "Vilma Palma e Vampiros",
-    tags: ["#Pop", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/vilma-palma-e-vampiros/129494/"
-  },
+  { title: "La Pachanga", artist: "Vilma Palma e Vampiros", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/vilma-palma-e-vampiros/129501/" },
+  { title: "Auto Rojo", artist: "Vilma Palma e Vampiros", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/vilma-palma-e-vampiros/68974/" },
+  { title: "Bye Bye (dejame que te toque la piel", artist: "Vilma Palma e Vampiros", tags: ["#Pop", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/vilma-palma-e-vampiros/129494/" },
   
   ////////////////////////////////////
   // Tirá para arriba (Zas)
   ////////////////////////////////////
-  {
-    title: "Tirá para Arriba",
-    artist: "Miguel Mateos/ZAS",
-    tags: ["#Rock", "#Nacional", "#1980s"],
-    lyricsUrl: "https://www.letras.com/miguel-mateos/tira-para-arriba/"
-  },
+  { title: "Tirá para Arriba", artist: "Miguel Mateos/ZAS", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/miguel-mateos/tira-para-arriba/" },
   
   ////////////////////////////////////
   // 2 de Pedro y Pablo
   ////////////////////////////////////
-  {
-    title: "La Marcha de la Bronca",
-    artist: "Pedro y Pablo",
-    tags: ["#Rock", "#Nacional", "#1970s"],
-    lyricsUrl: "https://www.letras.com/pedro-y-pablo/la-marcha-de-la-bronca/"
-  },
+  { title: "La Marcha de la Bronca", artist: "Pedro y Pablo", tags: ["#Rock", "#Nacional", "#1970s"], lyricsUrl: "https://www.letras.com/pedro-y-pablo/la-marcha-de-la-bronca/" },
   
   ////////////////////////////////////
   // 2 más de Virus
   ////////////////////////////////////
-  {
-    title: "Pronta Entrega",
-    artist: "Virus",
-    tags: ["#Rock", "#Nacional", "#1980s"],
-    lyricsUrl: "https://www.letras.com/virus/222337/"
-  },
-  {
-    title: "Amor Descartable",
-    artist: "Virus",
-    tags: ["#Rock", "#Nacional", "#1980s"],
-    lyricsUrl: "https://www.letras.com/virus/222333/"
-  },
+  { title: "Pronta Entrega", artist: "Virus", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/virus/222337/" },
+  { title: "Amor Descartable", artist: "Virus", tags: ["#Rock", "#Nacional", "#1980s"], lyricsUrl: "https://www.letras.com/virus/222333/" },
   
   ////////////////////////////////////
   // 3 de Divididos
   ////////////////////////////////////
-  {
-    title: "Spaghetti del Rock",
-    artist: "Divididos",
-    tags: ["#Rock", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/divididos/68659/"
-  },
-  {
-    title: "Qué Ves",
-    artist: "Divididos",
-    tags: ["#Rock", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/divididos/que-ves/"
-  },
-  {
-    title: "Ala Delta",
-    artist: "Divididos",
-    tags: ["#Rock", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/divididos/68658/"
-  },
+  { title: "Spaghetti del Rock", artist: "Divididos", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/divididos/68659/" },
+  { title: "Qué Ves", artist: "Divididos", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/divididos/que-ves/" },
+  { title: "Ala Delta", artist: "Divididos", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/divididos/68658/" },
   
   ////////////////////////////////////
   // 3 de Pappo
   ////////////////////////////////////
-  {
-    title: "Sucio y Desprolijo",
-    artist: "Pappo",
-    tags: ["#Rock", "#Nacional", "#1970s"],
-    lyricsUrl: "https://www.letras.com/pappo/sucio-y-desprolijo/"
-  },
-  {
-    title: "El Hombre Suburbano",
-    artist: "Pappo",
-    tags: ["#Rock", "#Nacional", "#1970s"],
-    lyricsUrl: "https://www.letras.com/pappo/el-hombre-suburbano/"
-  },
-  {
-    title: "Ruta 66",
-    artist: "Pappo",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/pappo/2283521/"
-  },
+  { title: "Sucio y Desprolijo", artist: "Pappo", tags: ["#Rock", "#Nacional", "#1970s"], lyricsUrl: "https://www.letras.com/pappo/sucio-y-desprolijo/" },
+  { title: "El Hombre Suburbano", artist: "Pappo", tags: ["#Rock", "#Nacional", "#1970s"], lyricsUrl: "https://www.letras.com/pappo/el-hombre-suburbano/" },
+  { title: "Ruta 66", artist: "Pappo", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/pappo/2283521/" },
   
   ////////////////////////////////////
   // 3 de Viejas Locas
   ////////////////////////////////////
-  {
-    title: "Me Gustas Mucho",
-    artist: "Viejas Locas",
-    tags: ["#Rock", "#Nacional", "#1990s"],
-    lyricsUrl: "https://www.letras.com/viejas-locas/217359/"
-  },
+  { title: "Me Gustas Mucho", artist: "Viejas Locas", tags: ["#Rock", "#Nacional", "#1990s"], lyricsUrl: "https://www.letras.com/viejas-locas/217359/" },
   
   
   ////////////////////////////////////
   // 3 de Intoxicados
   ////////////////////////////////////
-  {
-    title: "Fuego",
-    artist: "Intoxicados",
-    tags: ["#Rock", "#Nacional", "#2000s"],
-    lyricsUrl: "https://www.letras.com/intoxicados/322554/"
-  },
-  {
-    title: "Nunca Quise",
-    artist: "Intoxicados",
-    tags: ["#Rock", "#Nacional", "#2000s"],
-    lyricsUrl: "https://www.letras.com/intoxicados/nunca-quise/"
-  },
-  {
-    title: "Reggae para los Amigos",
-    artist: "Intoxicados",
-    tags: ["#Rock", "#Nacional", "#2000s"],
-    lyricsUrl: "https://www.letras.com/intoxicados/reggae-para-los-amigos/"
-  },
+  { title: "Fuego", artist: "Intoxicados", tags: ["#Rock", "#Nacional", "#2000s"], lyricsUrl: "https://www.letras.com/intoxicados/322554/" },
+  { title: "Nunca Quise", artist: "Intoxicados", tags: ["#Rock", "#Nacional", "#2000s"], lyricsUrl: "https://www.letras.com/intoxicados/nunca-quise/" },
+  { title: "Reggae para los Amigos", artist: "Intoxicados", tags: ["#Rock", "#Nacional", "#2000s"], lyricsUrl: "https://www.letras.com/intoxicados/reggae-para-los-amigos/" },
   
-    { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
-    { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
-    { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
+  { title: "Bohemian Rhapsody", artist: "Queen", tags: ["#Rock", "#Internacional", "#1970s"], lyricsUrl: "https://www.letras.com/queen/bohemian-rhapsody/" },
+  { title: "Muchachos", artist: "La Mosca", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/la-mosca/muchachos/" },
+  { title: "Billie Jean", artist: "Michael Jackson", tags: ["#Pop", "#Internacional", "#1980s"], lyricsUrl: "https://www.letras.com/michael-jackson/billie-jean/" },
     // Fito Páez
   ///////////////////////////////////////////////////////////
-  {
-    title: "Fue Amor",
-    artist: "Fito Páez",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/fito-paez/fue-amor/"
-    },
-    {
-    title: "Polaroid de locura ordinaria",
-    artist: "Fito Páez",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/fito-paez/76120/"
-    },
-    {
-    title: "Un Vestido y un Amor",
-    artist: "Fito Páez",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/fito-paez/un-vestido-y-un-amor/"
-    },
-    {
-    title: "Pétalo de Sal",
-    artist: "Fito Páez",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/fito-paez/201165/"
-    },
-    {
-    title: "A Rodar Mi Vida",
-    artist: "Fito Páez",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/fito-paez/a-rodar-mi-vida/"
-    },
+  { title: "Fue Amor", artist: "Fito Páez", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/fito-paez/fue-amor/" },
+    { title: "Polaroid de locura ordinaria", artist: "Fito Páez", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/fito-paez/76120/" },
+    { title: "Un Vestido y un Amor", artist: "Fito Páez", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/fito-paez/un-vestido-y-un-amor/" },
+    { title: "Pétalo de Sal", artist: "Fito Páez", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/fito-paez/201165/" },
+    { title: "A Rodar Mi Vida", artist: "Fito Páez", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/fito-paez/a-rodar-mi-vida/" },
     
     ///////////////////////////////////////////////////////////
     // Luis Alberto Spinetta
     ///////////////////////////////////////////////////////////
-    {
-    title: "Seguir Viviendo Sin Tu Amor",
-    artist: "Luis Alberto Spinetta",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/530333/"
-    },
-    {
-    title: "Barro Tal Vez",
-    artist: "Luis Alberto Spinetta",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/569033/"
-    },
-    {
-    title: "Muchacha Ojos de Papel",
-    artist: "Luis Alberto Spinetta",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/muchacha-ojos-de-papel/"
-    },
-    {
-    title: "Bajan",
-    artist: "Luis Alberto Spinetta",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/568494/"
-    },
+    { title: "Seguir Viviendo Sin Tu Amor", artist: "Luis Alberto Spinetta", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/530333/" },
+    { title: "Barro Tal Vez", artist: "Luis Alberto Spinetta", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/569033/" },
+    { title: "Muchacha Ojos de Papel", artist: "Luis Alberto Spinetta", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/muchacha-ojos-de-papel/" },
+    { title: "Bajan", artist: "Luis Alberto Spinetta", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/luis-alberto-spinetta/568494/" },
     
     ///////////////////////////////////////////////////////////
     // Intoxicados / Viejas Locas
     ///////////////////////////////////////////////////////////
   
-    {
-    title: "Todo Sigue Igual",
-    artist: "Viejas Locas",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/viejas-locas/214250/"
-    },
-    {
-    title: "Homero",
-    artist: "Viejas Locas",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/viejas-locas/325915/"
-    },
-    {
-    title: "Nunca Quise",
-    artist: "Intoxicados",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/intoxicados/322559/"
-    },
+    { title: "Todo Sigue Igual", artist: "Viejas Locas", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/viejas-locas/214250/" },
+    { title: "Homero", artist: "Viejas Locas", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/viejas-locas/325915/" },
+    { title: "Nunca Quise", artist: "Intoxicados", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/intoxicados/322559/" },
     
     ///////////////////////////////////////////////////////////
     // Gilda (ejemplo: "No Me Arrepiento..." ya lo tienes, "Se me ha perdido un corazón" igual)
     ///////////////////////////////////////////////////////////
-    {
-    title: "Paisaje",
-    artist: "Gilda",
-    tags: ["#Cumbia", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/gilda/916612/"
-    },
-    {
-    title: "Corazón Valiente",
-    artist: "Gilda",
-    tags: ["#Cumbia", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/gilda/529891/"
-    },
+    { title: "Paisaje", artist: "Gilda", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/gilda/916612/" },
+    { title: "Corazón Valiente", artist: "Gilda", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/gilda/529891/" },
     
     ///////////////////////////////////////////////////////////
     // Gustavo Cerati (Persiana Americana está con Soda, ojo duplicado, omito)
     ///////////////////////////////////////////////////////////
-    {
-    title: "Crimen",
-    artist: "Gustavo Cerati",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/gustavo-cerati/535873/"
-    },
-    {
-    title: "Adios",
-    artist: "Gustavo Cerati",
-    tags: ["#Rock", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/gustavo-cerati/adios/"
-    },
+    { title: "Crimen", artist: "Gustavo Cerati", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/gustavo-cerati/535873/" },
+    { title: "Adios", artist: "Gustavo Cerati", tags: ["#Rock", "#Nacional"], lyricsUrl: "https://www.letras.com/gustavo-cerati/adios/" },
     {
     title: "Cactus",
     artist: "Gustavo Cerati",
@@ -1022,12 +636,7 @@ const rawSongs = [
     tags: ["#Cumbia", "#Nacional"],
     lyricsUrl: "https://www.letras.com/nene-malo/bailan-rochas-y-chetas/"
     },
-    {
-    title: "Chetos y Cumbieros",
-    artist: "El Dipy",
-    tags: ["#Cumbia", "#Nacional"],
-    lyricsUrl: "https://www.letras.com/el-dipy/chetos-y-cumbieros/"
-    },
+    { title: "Chetos y Cumbieros", artist: "El Dipy", tags: ["#Cumbia", "#Nacional"], lyricsUrl: "https://www.letras.com/el-dipy/chetos-y-cumbieros/" },
     
     ///////////////////////////////////////////////////////////
     // Abel Pintos
@@ -1497,7 +1106,7 @@ function deduplicateSongs(arr) {
 export default function SongCatalog() {
   // Textos en español
   const tituloPrincipal = "Open Mic del Legado Piano Bar";
-  const subtituloCurado = "curado por";
+  const subtituloCurado = "Con tu pianista de confianza";
   const placeholderSearch = "Busca tu canción acá";
   const textoNoResults = "Resultados de la búsqueda";
   const textoListaArtistas = "Lista de Artistas";
