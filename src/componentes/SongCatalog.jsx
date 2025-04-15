@@ -1119,7 +1119,7 @@ export default function SongCatalog() {
   const [selectedTag, setSelectedTag] = useState(null);
   const [history, setHistory] = useState([]);
   const [globalSearch, setGlobalSearch] = useState("");
-  const [view, setView] = useState("songs");
+  const [view, setView] = useState("artists");
   const [artistFilter, setArtistFilter] = useState(null);
 
   // Eliminamos "ver más" y "ver menos" en los tags – lo sustituimos por un carousel scrolleable
