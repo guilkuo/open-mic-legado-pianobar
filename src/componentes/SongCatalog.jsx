@@ -1113,8 +1113,8 @@ export default function SongCatalog() {
   const textoListaCanciones = "Lista de Canciones";
   const textoReiniciar = "Reiniciar lista";
   const textoClearTag = "Limpiar etiqueta";
-  const textoVerSongs = "Ver Canciones";
   const textoVerArtists = "Ver Artistas";
+  const textoVerSongs = "Ver Canciones";
 
   const [selectedTag, setSelectedTag] = useState(null);
   const [history, setHistory] = useState([]);
