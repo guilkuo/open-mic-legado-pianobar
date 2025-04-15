@@ -1411,6 +1411,17 @@ export default function SongCatalog() {
 
       {/* Botones ver canciones / artistas */}
       <div className="bg-gray-200 px-4 py-2 flex flex-wrap justify-center gap-4">
+                <button
+          onClick={() => {
+            pushHistory();
+            setView("artists");
+            setSelectedTag(null);
+            setArtistFilter(null);
+          }}
+          className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
+        >
+          {textoVerArtists}
+        </button>
         <button
           onClick={() => {
             pushHistory();
@@ -1421,17 +1432,6 @@ export default function SongCatalog() {
           className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
         >
           {textoVerSongs}
-        </button>
-        <button
-          onClick={() => {
-            pushHistory();
-            setView("artists");
-            setSelectedTag(null);
-            setArtistFilter(null);
-          }}
-          className="px-4 py-1 bg-gray-300 text-gray-700 font-semibold rounded hover:bg-gray-400"
-        >
-          {textoVerArtists}
         </button>
         <button
           className="px-2 py-1 ml-auto bg-gray-700 text-gray-100 text-xs rounded hover:bg-gray-600"
